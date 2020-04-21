@@ -45,6 +45,7 @@ public class RunMeRunner {
         for(Method m : methods){
             if (m.getAnnotation(RunMe.class) == null) {
                 runNOTMeMethods.add(m.getName());
+                System.out.println(m.getName());
             }
         }
 
@@ -58,6 +59,7 @@ public class RunMeRunner {
         for(Method m : methods){
             if (m.getAnnotation(RunMe.class) != null) {
                 runMeMethods.add(m.getName());
+                System.out.println(m.getName());
             }
         }
 
