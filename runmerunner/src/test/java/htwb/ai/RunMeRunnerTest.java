@@ -1,21 +1,15 @@
 package htwb.ai;
 
+import htwb.ai.PABB.RunMeRunner;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RunMeRunnerTest {
 
-    RunMeRunner rmr = new RunMeRunner("TestClass");
+    RunMeRunner rmr = new RunMeRunner("htwb.ai.TestClass");
 
     @Test
     public void firstTest() {
-
-       // rmr.checkTheClass();
-        //assertTrue(true);
-        int i = 5;
-        int x = 6;
-        assertEquals(6, x);
+        rmr.checkTheClass();
     }
 
     @Test
