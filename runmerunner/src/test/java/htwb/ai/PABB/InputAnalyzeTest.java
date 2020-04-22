@@ -11,7 +11,7 @@ class InputAnalyzeTest {
     @Test
     void nullInputShouldReturnFalse(){
         analyzer = new InputAnalyze(null);
-        assertEquals(false,analyzer.analyze());
+        assertEquals(false,analyzer.analyzeClass());
     }
 
 }
