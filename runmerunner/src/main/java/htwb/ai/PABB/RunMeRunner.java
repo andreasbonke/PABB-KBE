@@ -18,7 +18,6 @@ public class RunMeRunner {
     private List<Method> notInvoked;
 
 
-
     public RunMeRunner(String className) {
         this.className = className;
     }
@@ -87,5 +86,17 @@ public class RunMeRunner {
             }
         }
         return notInvokableList;
+    }
+
+    public List<Method> getRunMeMethods() {
+        return runMeMethods;
+    }
+
+    public List<Method> getRunMeNOTMethods() {
+        return runMeNOTMethods;
+    }
+
+    public List<Method> getNotInvoked() {
+        return notInvoked;
     }
 }
