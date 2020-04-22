@@ -83,7 +83,7 @@ public class RunMeRunner {
                 m.invoke(testObject);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                 notInvokableList.add(m);
-                System.out.println(m.getName()+": "+ e.getClass().getName());
+                System.out.println(m.getName()+": "+ e.getClass().getSimpleName());
             }
         }
         return notInvokableList;
