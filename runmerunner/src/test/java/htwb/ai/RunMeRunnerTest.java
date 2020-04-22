@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 class RunMeRunnerTest {
 
-    RunMeRunner rmr = new RunMeRunner("htwb.ai.TestClass");
 
     @Test
     public void firstTest() {
+        RunMeRunner rmr = new RunMeRunner("htwb.ai.TestClass");
         rmr.checkTheClass();
     }
 

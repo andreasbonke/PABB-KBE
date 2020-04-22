@@ -2,9 +2,9 @@ package htwb.ai.PABB;
 
 import htwb.ai.RunMe;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RunMeRunner {
@@ -12,6 +12,12 @@ public class RunMeRunner {
     private String className;
     private Class<?> clazz;
     private Method[] methods;
+    private Object testObject;
+    private List<Method> runMeMethods;
+    private List<Method> runMeNOTMethods;
+    private List<Method> notInvoked;
+
+
 
     public RunMeRunner(String className) {
         this.className = className;
@@ -24,29 +30,29 @@ public class RunMeRunner {
             System.out.println("Analyzed class: " + className);
             clazz = Class.forName(className);
             methods = clazz.getDeclaredMethods();
+            testObject = clazz.getDeclaredConstructor().newInstance();
 
 
             System.out.println("Methods without @RunMe: ");
-            getNORunMe(methods);
+            runMeNOTMethods = getNORunMe(methods);
             System.out.println("Methods with @RunMe: ");
-            getRunMe(methods);
+            runMeMethods = getRunMe(methods);
             System.out.println("not invokable: ");
+            notInvoked = invokeRunMeANDGetNOTinvoke(runMeMethods);
 
-
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
     }
 
 
-    public List<String> getNORunMe(Method[] methods){
+    public List<Method> getNORunMe(Method[] methods) {
 
-        List<String> runNOTMeMethods = new ArrayList<>();
+        List<Method> runNOTMeMethods = new ArrayList<>();
 
-        for(Method m : methods){
+        for (Method m : methods) {
             if (m.getAnnotation(RunMe.class) == null) {
-                runNOTMeMethods.add(m.getName());
+                runNOTMeMethods.add(m);
                 System.out.println(m.getName());
             }
         }
@@ -54,17 +60,32 @@ public class RunMeRunner {
         return runNOTMeMethods;
     }
 
-    public List<String> getRunMe(Method[] methods){
+    public List<Method> getRunMe(Method[] methods) {
 
-        List<String> runMeMethods = new ArrayList<>();
+        List<Method> runMeMethods = new ArrayList<>();
 
-        for(Method m : methods){
+        for (Method m : methods) {
             if (m.getAnnotation(RunMe.class) != null) {
-                runMeMethods.add(m.getName());
+                runMeMethods.add(m);
                 System.out.println(m.getName());
             }
         }
 
         return runMeMethods;
+    }
+
+    public List<Method> invokeRunMeANDGetNOTinvoke(List<Method> methods) {
+
+        List<Method> notInvokableList = new ArrayList<>();
+
+        for (Method m : methods) {
+            try {
+                m.invoke(testObject);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                notInvokableList.add(m);
+                System.out.println(m.getName());
+            }
+        }
+        return notInvokableList;
     }
 }

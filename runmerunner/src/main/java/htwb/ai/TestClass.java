@@ -6,26 +6,26 @@ public class TestClass {
 
     @RunMe
     public void testMethod1() {
-        System.out.println("M1 TestClass");
+        //System.out.println("M1 TestClass");
     }
 
     public void testMethod1NoRunME() {
-        System.out.println("testM void, no RunMe");
+        //System.out.println("testM void, no RunMe");
     }
 
     @RunMe
     public void testMethod2(String str) {
-        System.out.println("M2 void, param String");
+        //System.out.println("M2 void, param String");
     }
 
     public String testMethod3() {
-        System.out.println("In M3() return String, no RunMe");
+       // System.out.println("In M3() return String, no RunMe");
         return " ";
     }
 
     @RunMe
     public int testMethod4() {
-        System.out.println("M4 TestClass, param Int");
+        //System.out.println("M4 TestClass, param Int");
         return 0;
     }
 
@@ -40,8 +40,7 @@ public class TestClass {
     }
 
     @RunMe
-    private void testThree() {
-    }
+    private void testThree() {}
 
     @RunMe
     public boolean testFour() {
@@ -78,7 +77,7 @@ public class TestClass {
         throw new InstantiationException("Haha");
     }
 
-    @RunMe
+    //@RunMe
     public boolean testEleven() {
         throw new NoSuchElementException("Jo");
     }
