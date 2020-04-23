@@ -12,7 +12,7 @@ class RunMeRunnerTest {
     RunMeRunner rmr;
 
     @Test
-    void containsGetRunMeMethodsTest() {
+    void containsRunMeMethodsTest() {
         rmr = new RunMeRunner("htwb.ai.TestClass");
         rmr.checkTheClass();
         List<Method> result = rmr.getRunMeMethods();
@@ -34,7 +34,7 @@ class RunMeRunnerTest {
     }
 
     @Test
-    void getNORunMe() {
+    void containsNORunMeMethodsTest() {
         rmr = new RunMeRunner("htwb.ai.TestClass");
         rmr.checkTheClass();
         List<Method> result = rmr.getRunMeNOTMethods();
@@ -56,7 +56,7 @@ class RunMeRunnerTest {
 
 
     @Test
-    void invokeRunMeANDGetNOTinvoke() {
+    void invokeRunMeANDGetNOTinvokeMethodsTest() {
         rmr = new RunMeRunner("htwb.ai.TestClass");
         rmr.checkTheClass();
         List<Method> result = rmr.getNotInvoked();
