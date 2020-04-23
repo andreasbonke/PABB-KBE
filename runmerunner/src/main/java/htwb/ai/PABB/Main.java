@@ -8,7 +8,8 @@ public class Main {
         InputAnalyze ia = new InputAnalyze(args);
 
         if (ia.analyzeSyntax() && ia.analyzeClass()) {
-            RunMeRunner rmr = new RunMeRunner(args.toString());
+            RunMeRunner rmr = new RunMeRunner(args[0].toString());
+            rmr.checkTheClass();
         }else{
            // throw new Exception("An unknown error occurred x0001");
             System.exit(-1);

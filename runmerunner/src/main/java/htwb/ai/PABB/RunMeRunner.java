@@ -44,7 +44,6 @@ public class RunMeRunner {
         }
     }
 
-
     public List<Method> getNORunMe(Method[] methods) {
 
         List<Method> runNOTMeMethods = new ArrayList<>();

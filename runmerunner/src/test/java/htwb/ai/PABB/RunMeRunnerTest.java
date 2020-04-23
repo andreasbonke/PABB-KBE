@@ -2,40 +2,58 @@ package htwb.ai.PABB;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RunMeRunnerTest {
-    private RunMeRunner rmr;
+    RunMeRunner rmr;
 
     @Test
-    void correctClassNameTest(){
+    void containsGetRunMeMethodsTest() {
         rmr = new RunMeRunner("htwb.ai.TestClass");
-        //rmr = new RunMeRunner("java.lang.Number");
         rmr.checkTheClass();
+        List<Method> result = rmr.getRunMeMethods();
+
+        List<String> expected = new ArrayList<>();
+        expected.add("testOne");
+        expected.add("testMethod1");
+        expected.add("testMethod2");
+        expected.add("testMethod4");
+
+        assertTrue(result.contains(expected));
     }
 
     @Test
-    void interfaceClassTest(){
-        rmr = new RunMeRunner("java.io.Closeable");
+    void getNORunMe() {
+        rmr = new RunMeRunner("htwb.ai.TestClass");
         rmr.checkTheClass();
+        List<Method> result = rmr.getRunMeNOTMethods();
+
+        List<String> expected = new ArrayList<>();
+        expected.add("testMethod1NoRunME");
+        expected.add("testMethod3");
+        expected.add("testEleven");
+
+        assertTrue(result.contains(expected));
     }
 
-    @Test
-    void abstractClassTest(){
-        rmr = new RunMeRunner("java.lang.reflect.Executable");
-        rmr.checkTheClass();
-    }
 
     @Test
-    void dontExistClassTest(){
-        rmr = new RunMeRunner("htw.ai.FailTestClass");
+    void invokeRunMeANDGetNOTinvoke() {
+        rmr = new RunMeRunner("htwb.ai.TestClass");
         rmr.checkTheClass();
+        List<Method> result = rmr.getNotInvoked();
+
+        List<String> expected = new ArrayList<>();
+        expected.add("testOne");
+        expected.add("testMethod2");
+        expected.add("testThree");
+
+        assertTrue(result.contains(expected));
     }
 
-    @Test
-    void nullClassNameTest(){
-        rmr = new RunMeRunner(null);
-        rmr.checkTheClass();
-    }
 
 }
