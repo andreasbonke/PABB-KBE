@@ -48,12 +48,13 @@ class InputAnalyzeTest {
     @Test
     void analyzeClassShouldInstanciationException(){
         String[] input = new String[1];
-        input[0] = "Test";
+        input[0] = "java.io.InputStream";
         analyzer = new InputAnalyze(input);
         //assertThrows(InstantiationException.class, () ->{analyzer.analyzeClass();});
         assertEquals(false, analyzer.analyzeClass());
     }
 
+    //Überflüssig
     @Test
     void analyzeClassShouldInvocationTargetException(){
         String[] input = new String[1];
@@ -69,13 +70,14 @@ class InputAnalyzeTest {
         input[0] = "java.io.Closeable";
         analyzer = new InputAnalyze(input);
         //assertThrows(NoSuchMethodException.class, () ->{analyzer.analyzeClass();});
-        //assertEquals(false, analyzer.analyzeClass());
+        assertEquals(false, analyzer.analyzeClass());
     }
 
+    //Überflüssig
     @Test
     void analyzeClassShouldIllegalAccessException(){
         String[] input = new String[1];
-        input[0] = "java.io.Closeable";
+        input[0] = "java.lang.invoke.Invokers";
         analyzer = new InputAnalyze(input);
         //assertThrows(IllegalAccessException.class, () ->{analyzer.analyzeClass();});
         assertEquals(false, analyzer.analyzeClass());
