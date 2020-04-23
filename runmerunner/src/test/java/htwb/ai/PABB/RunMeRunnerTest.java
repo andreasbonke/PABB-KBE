@@ -23,7 +23,14 @@ class RunMeRunnerTest {
         expected.add("testMethod2");
         expected.add("testMethod4");
 
-        assertTrue(result.contains(expected));
+        List<String> rs = new ArrayList<>();
+
+        for (int i = 0; i < result.size(); i++) {
+
+            rs.add(result.get(i).getName());
+        }
+
+        assertTrue(rs.contains(expected));
     }
 
     @Test
@@ -37,7 +44,14 @@ class RunMeRunnerTest {
         expected.add("testMethod3");
         expected.add("testEleven");
 
-        assertTrue(result.contains(expected));
+        List<String> rs = new ArrayList<>();
+
+        for (int i = 0; i < result.size(); i++) {
+
+            rs.add(result.get(i).getName());
+        }
+
+        assertTrue(rs.contains(expected));
     }
 
 
@@ -52,7 +66,14 @@ class RunMeRunnerTest {
         expected.add("testMethod2");
         expected.add("testThree");
 
-        assertTrue(result.contains(expected));
+        List<String> rs = new ArrayList<>();
+
+        for (int i = 0; i < result.size(); i++) {
+
+            rs.add(result.get(i).getName());
+        }
+
+        assertTrue(rs.contains(expected));
     }
 
 
