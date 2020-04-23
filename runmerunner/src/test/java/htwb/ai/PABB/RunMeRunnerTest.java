@@ -30,7 +30,7 @@ class RunMeRunnerTest {
             rs.add(result.get(i).getName());
         }
 
-        assertTrue(rs.contains(expected));
+        assertTrue(rs.containsAll(expected));
     }
 
     @Test
@@ -51,7 +51,7 @@ class RunMeRunnerTest {
             rs.add(result.get(i).getName());
         }
 
-        assertTrue(rs.contains(expected));
+        assertTrue(rs.containsAll(expected));
     }
 
 
@@ -73,7 +73,7 @@ class RunMeRunnerTest {
             rs.add(result.get(i).getName());
         }
 
-        assertTrue(rs.contains(expected));
+        assertTrue(rs.containsAll(expected));
     }
 
 

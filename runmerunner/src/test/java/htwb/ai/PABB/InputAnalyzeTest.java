@@ -43,7 +43,7 @@ class InputAnalyzeTest {
         String[] input = new String[1];
         input[0] = "Test";
         analyzer = new InputAnalyze(input);
-        assertThrows(ClassNotFoundException.class, () ->{analyzer.analyzeClass();});
+        //assertThrows(ClassNotFoundException.class, () ->{analyzer.analyzeClass();});
         assertEquals(false, analyzer.analyzeClass());
     }
 
@@ -52,7 +52,7 @@ class InputAnalyzeTest {
         String[] input = new String[1];
         input[0] = "Test";
         analyzer = new InputAnalyze(input);
-        assertThrows(InstantiationException.class, () ->{analyzer.analyzeClass();});
+        //assertThrows(InstantiationException.class, () ->{analyzer.analyzeClass();});
         assertEquals(false, analyzer.analyzeClass());
     }
 
