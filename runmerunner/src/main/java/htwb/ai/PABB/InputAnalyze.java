@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 public class InputAnalyze {
 
 
-    String[] input;
+    private String[] input;
 
     public InputAnalyze(String[] input) {
         this.input = input;

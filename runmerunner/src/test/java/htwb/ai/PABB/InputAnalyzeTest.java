@@ -46,7 +46,7 @@ class InputAnalyzeTest {
     }
 
     @Test
-    void analyzeClassInstanciationExceptionReturnFalse(){
+    void analyzeClassInstanciationExceptionAbstractClassReturnFalse(){
         String[] input = new String[1];
         input[0] = "java.io.InputStream";
         InputAnalyze analyzer = new InputAnalyze(input);
@@ -62,9 +62,8 @@ class InputAnalyzeTest {
         assertFalse(analyzer.analyzeClass());
     }
 
-    //??
     @Test
-    void analyzeClassNoSuchMethodException(){
+    void analyzeClassNoSuchMethodExceptionInterfaceReturnFalse(){
         String[] input = new String[1];
         input[0] = "java.io.Closeable";
         InputAnalyze analyzer = new InputAnalyze(input);
@@ -75,9 +74,10 @@ class InputAnalyzeTest {
     @Test
     void analyzeClassIllegalAccessExceptionReturnFalse(){
         String[] input = new String[1];
-        input[0] = "htwb.ai.TestClassIllegalAccess";
+        input[0] = "htwb.ai.TestIllegalAccess";
         InputAnalyze analyzer = new InputAnalyze(input);
         assertFalse(analyzer.analyzeClass());
+        //    IllegalAccessException object1 = new IllegalAccessException();
     }
 
     @Test

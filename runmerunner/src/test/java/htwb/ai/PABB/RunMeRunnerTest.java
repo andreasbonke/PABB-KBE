@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RunMeRunnerTest {
 
-
     @Test
     void containsRunMeMethodsTest() {
         RunMeRunner rmr = new RunMeRunner("htwb.ai.TestClass");
@@ -102,6 +101,60 @@ class RunMeRunnerTest {
 
         assertEquals(expected, resultOnlyNames);
         //assertEquals(expected.size(),resultOnlyNames.size());
+    }
+
+    @Test
+    void testIfAnyMethodsInClassNoRunMe() {
+        RunMeRunner rmr = new RunMeRunner("htwb.ai.EmptyTestClass");
+        rmr.checkTheClass();
+        List<Method> result = rmr.getRunMeNOTMethods();
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void testIfAnyMethodsInClassRunMe() {
+        RunMeRunner rmr = new RunMeRunner("htwb.ai.EmptyTestClass");
+        rmr.checkTheClass();
+        List<Method> result = rmr.getRunMeNOTMethods();
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void testIfAnyMethodsInClassNotInvoke() {
+        RunMeRunner rmr = new RunMeRunner("htwb.ai.EmptyTestClass");
+        rmr.checkTheClass();
+        List<Method> result = rmr.getNotInvoked();
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void checkTheClassReturnTrueNormalClass() {
+        RunMeRunner rmr = new RunMeRunner("htwb.ai.TestClass");
+        assertTrue(rmr.checkTheClass());
+    }
+
+    @Test
+    void checkTheClassReturnFalseIface() {
+        RunMeRunner rmr = new RunMeRunner("java.io.closeable");
+        assertFalse(rmr.checkTheClass());
+    }
+
+    @Test
+    void checkTheClassReturnFalseAbstract() {
+        RunMeRunner rmr = new RunMeRunner("java.io.InputStream");
+        assertFalse(rmr.checkTheClass());
+    }
+
+    @Test
+    void checkTheClassReturnFalseWrongName() {
+        RunMeRunner rmr = new RunMeRunner("asddsdam");
+        assertFalse(rmr.checkTheClass());
+    }
+
+    @Test
+    void checkTheClassReturnFalseIllegalAccess() {
+        RunMeRunner rmr = new RunMeRunner("htwb.ai.TestIllegalAccess");
+        assertFalse(rmr.checkTheClass());
     }
 
 

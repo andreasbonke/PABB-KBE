@@ -22,7 +22,7 @@ public class RunMeRunner {
         this.className = className;
     }
 
-    public void checkTheClass() {
+    public boolean checkTheClass() {
 
         try {
 
@@ -40,9 +40,11 @@ public class RunMeRunner {
             runMeMethods = getRunMe(methods);
             System.out.println("not invokable: ");
             notInvoked = invokeRunMeANDGetNOTinvoke(runMeMethods);
+            return true;
 
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
