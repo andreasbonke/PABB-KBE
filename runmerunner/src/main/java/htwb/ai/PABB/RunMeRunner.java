@@ -28,12 +28,14 @@ public class RunMeRunner {
 
             System.out.println("Analyzed class: " + className);
             clazz = Class.forName(className);
+
             methods = clazz.getDeclaredMethods();
             testObject = clazz.getDeclaredConstructor().newInstance();
 
 
             System.out.println("Methods without @RunMe: ");
             runMeNOTMethods = getNORunMe(methods);
+
             System.out.println("Methods with @RunMe: ");
             runMeMethods = getRunMe(methods);
             System.out.println("not invokable: ");
@@ -43,6 +45,7 @@ public class RunMeRunner {
             e.printStackTrace();
         }
     }
+
 
     public List<Method> getNORunMe(Method[] methods) {
 
@@ -57,6 +60,7 @@ public class RunMeRunner {
 
         return runNOTMeMethods;
     }
+
 
     public List<Method> getRunMe(Method[] methods) {
 

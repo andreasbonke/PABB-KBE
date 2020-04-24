@@ -6,85 +6,64 @@ public class TestClass {
 
     @RunMe
     public void testMethod1() {
-        //System.out.println("M1 TestClass");
     }
 
     public void testMethod1NoRunME() {
-        //System.out.println("testM void, no RunMe");
     }
 
     @RunMe
     public void testMethod2(String str) {
-        //System.out.println("M2 void, param String");
     }
 
     public String testMethod3() {
-       // System.out.println("In M3() return String, no RunMe");
-        return " ";
+        return "";
     }
 
     @RunMe
     public int testMethod4() {
-        //System.out.println("M4 TestClass, param Int");
         return 0;
     }
 
     @RunMe
-    public String testOne(int x, String y) {
-        return "One";
+    public String testMethod5(int x, String y) {
+        return "";
     }
 
     @RunMe
-    public int testTwo() {
-        return 2;
-    }
-
-    @RunMe
-    private void testThree() {}
-
-    @RunMe
-    public boolean testFour() {
+    public boolean testMethod6() {
         return true;
     }
 
     @RunMe
-    public boolean testFive() {
-        return false;
+    public String testMethod7(int x, String y) {
+        return "";
     }
 
     @RunMe
-    public boolean testSix(int x) {
-        return false;
+    public boolean testMethod8() {
+        throw new NullPointerException();
     }
 
     @RunMe
-    public String testSeven(int x, String y) {
-        return "One";
+    public boolean testMethod9() throws IllegalAccessException {
+        throw new IllegalAccessException();
     }
 
     @RunMe
-    public boolean testEight() {
-        throw new NullPointerException("Haha");
+    public boolean testMethod10() throws InstantiationException {
+        throw new InstantiationException();
     }
 
     @RunMe
-    public boolean testNine() throws IllegalAccessException {
-        throw new IllegalAccessException("");
+    public boolean testMethod11() {
+        throw new NoSuchElementException();
     }
 
     @RunMe
-    public boolean testTen() throws InstantiationException {
-        throw new InstantiationException("Haha");
-    }
-
-    //@RunMe
-    public boolean testEleven() {
-        throw new NoSuchElementException("Jo");
-    }
-
-    @RunMe
-    protected boolean testTwelve() {
+    protected boolean testMethod12() {
         return true;
     }
+
+
 
 }
