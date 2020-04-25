@@ -43,7 +43,7 @@ public class RunMeRunner {
             return true;
 
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
     }
@@ -54,6 +54,9 @@ public class RunMeRunner {
         List<Method> runNOTMeMethods = new ArrayList<>();
 
         for (Method m : methods) {
+            if (m.isSynthetic()) {
+                continue;
+            }
             if (m.getAnnotation(RunMe.class) == null) {
                 runNOTMeMethods.add(m);
                 System.out.println(m.getName());
@@ -69,6 +72,9 @@ public class RunMeRunner {
         List<Method> runMeMethods = new ArrayList<>();
 
         for (Method m : methods) {
+            if (m.isSynthetic()) {
+                continue;
+            }
             if (m.getAnnotation(RunMe.class) != null) {
                 runMeMethods.add(m);
                 System.out.println(m.getName());
@@ -83,6 +89,9 @@ public class RunMeRunner {
         List<Method> notInvokableList = new ArrayList<>();
 
         for (Method m : methods) {
+            if (m.isSynthetic()) {
+                continue;
+            }
             try {
                 m.invoke(testObject);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
