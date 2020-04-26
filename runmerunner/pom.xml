@@ -31,8 +31,8 @@
 				<version>2.4.1</version>
 				<configuration>
 					<!-- get all project dependencies -->
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
+					 <descriptorRefs>
+						 <descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
@@ -40,7 +40,7 @@
 							<mainClass>htwb.ai.PABB.App</mainClass>
 						</manifest>
 					</archive>
-					<appendAssemblyId>false</appendAssemblyId>
+					<!-- <appendAssemblyId>false</appendAssemblyId> -->
 				</configuration>
 				<executions>
 					<execution>
