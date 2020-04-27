@@ -13,7 +13,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="modules" target="11" />
-      <module name="runmerunner" target="11" />
+      <module name="runmerunner" target="8" />
       <module name="songsservlet" target="11" />
       <module name="songsWS" target="11" />
     </bytecodeTargetLevel>
