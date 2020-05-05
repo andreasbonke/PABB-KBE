@@ -10,23 +10,11 @@
     <servlet>
         <servlet-name>SongServlet</servlet-name>
         <servlet-class>htwb.ai.PABB.controller.SongServlet</servlet-class>
-        <init-param>
-            <param-name>uriToDB</param-name>
-            <param-value>db-uri:mysql.server.de:3306/dbId</param-value>
-        </init-param>
     </servlet>
-    <!--  DIE URL AN DAS SERVLET, WELCHES IN EINEM TOMCAT_SERVER LAEUFT IST:
-          http://localhost:8080/echoServlet/echo
-          echoServlet ist die Bezeichnung der App,
-          echoServlet/echo -> Pfad welcher auf htwb.ai.teames.EchoServlet abgebildet wird
-          echoServlet.war wird von uns gebaut, ins webapp-Verzeichnis von Tomcat kopiert
-          von Tomcat depoyed
-
-     -->
 
     <servlet-mapping>
-        <servlet-name>Song Servlet</servlet-name>
-        <url-pattern>/song</url-pattern>
+        <servlet-name>SongServlet</servlet-name>
+        <url-pattern>/songs</url-pattern>
     </servlet-mapping>
 
 </web-app>

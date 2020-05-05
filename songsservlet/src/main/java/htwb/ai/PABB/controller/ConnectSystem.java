@@ -8,16 +8,21 @@ public class ConnectSystem {
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsservlet");
 
     public static void main(String[] args) {
-        //addSong("tick","trick","track",4);
+        /*Song song = new Song();
+        song.setTitle("halli");
+        song.setReleased(12312);
+        song.setLabel("sadd");
+        song.setArtist("sadas");*/
+        //ConnectSystem connectSystem = new ConnectSystem();
+        //connectSystem.addSong(song);
         //addSong("bla","bli","blub",9);
-        getSong(1);
-        System.out.println();
-        System.out.println();
-        getSongs();
-        ENTITY_MANAGER_FACTORY.close();
+        //getSong(1);
+        //getSongs();
+        //ENTITY_MANAGER_FACTORY.close();
     }
 
-    public static void addSong(String title, String artist, String label, int released) {
+    //public static void addSong(String title, String artist, String label, int released) {
+    public void addSong(Song song) {
 
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction entityTransaction = null;
@@ -25,11 +30,11 @@ public class ConnectSystem {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            Song song = new Song();
+            /*Song song = new Song();
             song.setTitle(title);
             song.setArtist(artist);
             song.setLabel(label);
-            song.setReleased(released);
+            song.setReleased(released);*/
 
             entityManager.persist(song);
             entityTransaction.commit();
@@ -44,7 +49,7 @@ public class ConnectSystem {
     }
 
 
-    public static void getSong(int id) {
+    public void getSong(int id) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         String query = "SELECT s FROM Song s WHERE s.id = :id";
         TypedQuery<Song> tq = entityManager.createQuery(query, Song.class);
@@ -62,7 +67,7 @@ public class ConnectSystem {
     }
 
 
-    public static void getSongs() {
+    public void getSongs() {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         String query = "SELECT s FROM Song s WHERE s.id IS NOT NULL";
         TypedQuery<Song> tq = entityManager.createQuery(query, Song.class);
@@ -78,4 +83,6 @@ public class ConnectSystem {
             entityManager.close();
         }
     }
+
+
 }
