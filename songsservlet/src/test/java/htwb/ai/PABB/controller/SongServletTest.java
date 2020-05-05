@@ -9,6 +9,7 @@ import org.springframework.mock.web.MockServletConfig;
 import javax.servlet.ServletException;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
