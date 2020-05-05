@@ -8,7 +8,7 @@
 
 
     <servlet>
-        <servlet-name>Song Servlet</servlet-name>
+        <servlet-name>SongServlet</servlet-name>
         <servlet-class>htwb.ai.PABB.controller.SongServlet</servlet-class>
         <init-param>
             <param-name>uriToDB</param-name>
