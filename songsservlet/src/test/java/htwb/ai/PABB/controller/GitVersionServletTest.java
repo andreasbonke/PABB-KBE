@@ -38,6 +38,7 @@ public class GitVersionServletTest {
         try {
             servlet.doGet(request, response);
             assertEquals("application/json", response.getContentType());
+            System.out.println(response.getContentAsString());
             assertTrue(response.getContentAsString().contains("git.commit.id"));
             assertTrue(response.getContentAsString().contains("git.commit.time"));
         } catch (Exception e) {
