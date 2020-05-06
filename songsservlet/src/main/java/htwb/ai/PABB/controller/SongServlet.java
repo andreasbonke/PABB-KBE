@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.http.HttpRequest;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 public class SongServlet extends HttpServlet {
 
@@ -30,8 +32,6 @@ public class SongServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
-        // Beispiel: Laden eines Initparameters aus der web.xml
-        // this.uriToDB = servletConfig.getInitParameter("uriToDB");
         welcome = "Welcome";
     }
 
@@ -58,8 +58,7 @@ public class SongServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String body = request.getReader().lines()
-                .reduce("", (accumulator, actual) -> accumulator + actual);
-
+                .reduce("", (acc, a) -> acc + a);
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = body;
         Song song = mapper.readValue(jsonInString, Song.class);
@@ -67,15 +66,26 @@ public class SongServlet extends HttpServlet {
         connectSystem.addSong(song);
         PrintWriter out = response.getWriter();
         out.println(body);
-
     }
 
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+
         PrintWriter out = response.getWriter();
-        out.println("<h1>" + welcome + "<h1>");
+        response.setContentType("text/html");
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        Enumeration<String> paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String parameter = paramNames.nextElement();
+
+            map.put(parameter, request.getHeader(parameter));
+            out.println("Parameter  " + parameter);
+            out.println("Value  " + request.getHeader(parameter));
+        }
+
+       // out.println("<h1>" + map.toString() + "<h1>");
 
     }
 
@@ -83,19 +93,4 @@ public class SongServlet extends HttpServlet {
     public void destroy() {
 
     }
-
-   /* @Override
-    public void doPost(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException
-    {
-        // to accept the json data
-
-        String jsonData = request.getParameter("json");
-
-        // to send out the json data
-
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.println(jsonData) ;
-        out.close() ;
-    }*/
 }
