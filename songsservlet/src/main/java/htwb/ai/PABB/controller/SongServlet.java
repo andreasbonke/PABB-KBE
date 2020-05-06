@@ -12,16 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.http.HttpRequest;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 public class SongServlet extends HttpServlet {
 
@@ -73,19 +70,31 @@ public class SongServlet extends HttpServlet {
                       HttpServletResponse response) throws IOException {
 
         PrintWriter out = response.getWriter();
-        response.setContentType("text/html");
+        response.setContentType("application/json");
 
-        HashMap<String, String> map = new HashMap<String, String>();
+        //HashMap<String, String> map = new HashMap<String, String>();
         Enumeration<String> paramNames = request.getParameterNames();
-        while (paramNames.hasMoreElements()) {
+        /*while (paramNames.hasMoreElements()) {
             String parameter = paramNames.nextElement();
 
             map.put(parameter, request.getHeader(parameter));
-            out.println("Parameter  " + parameter);
-            out.println("Value  " + request.getHeader(parameter));
-        }
+            //out.println("Parameter  " + parameter);
+            //out.println("Value  " + request.getParameter(parameter));
+        }*/
+        ConnectSystem connectSystem = new ConnectSystem();
+        String paramType = paramNames.nextElement();
+        if (paramType.equals("songId")) {
+            int id = Integer.parseInt(request.getParameter(paramType));
+            Song song = connectSystem.getSong(id);
 
-       // out.println("<h1>" + map.toString() + "<h1>");
+            ObjectMapper mapper = new ObjectMapper();
+            //String jsonInString2 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(song);
+            out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(song) + "    " + paramType);
+        } else if(paramType.equals("all")) {
+            List<Song> songList = connectSystem.getSongs();
+            ObjectMapper mapper = new ObjectMapper();
+            out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(songList));
+        }
 
     }
 

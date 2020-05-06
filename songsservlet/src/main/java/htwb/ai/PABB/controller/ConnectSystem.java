@@ -2,6 +2,7 @@ package htwb.ai.PABB.controller;
 
 import javax.persistence.*;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectSystem {
@@ -49,7 +50,7 @@ public class ConnectSystem {
     }
 
 
-    public void getSong(int id) {
+    public Song getSong(int id) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         String query = "SELECT s FROM Song s WHERE s.id = :id";
         TypedQuery<Song> tq = entityManager.createQuery(query, Song.class);
@@ -58,30 +59,33 @@ public class ConnectSystem {
         try {
             song = tq.getSingleResult();
             System.out.println(song.getTitle() + " by " + song.getArtist() + "  " + song.getLabel() + song.getReleased());
+            return song;
         } catch(NoResultException e) {
             e.printStackTrace();
         }
         finally {
             entityManager.close();
         }
+        return song;
     }
 
 
-    public void getSongs() {
+    public List<Song> getSongs() {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         String query = "SELECT s FROM Song s WHERE s.id IS NOT NULL";
         TypedQuery<Song> tq = entityManager.createQuery(query, Song.class);
-        List<Song> songs;
+        List<Song> songs = new ArrayList<>();
         try {
             songs = tq.getResultList();
             songs.forEach(song -> System.out.println(song.getTitle() + " by " + song.getArtist() + "  " + song.getLabel() + song.getReleased()));
-
+            return songs;
         }catch(NoResultException e) {
             e.printStackTrace();
         }
         finally {
             entityManager.close();
         }
+        return songs;
     }
 
 
