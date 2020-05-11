@@ -22,6 +22,22 @@
             <property name="javax.persistence.jdbc.user" value="_s0563842__songdb_generic" />
             <!-- Password -->
             <property name="javax.persistence.jdbc.password" value="andreasundpeter" />
+
+            <!-- The connection is released after each statement execution
+                 and reacquired prior to running the next statement.  -->
+            <property name="hibernate.connection.release_mode" value="after_statement"></property>
+
+            <!-- Connection pool properties -->
+            <property name="hibernate.c3p0.min_size" value="1"/>
+            <property name="hibernate.c3p0.max_size" value="8"/>
+
+            <!-- in seconds:  When an idle connection is removed from the pool
+                 Hibernate default: 0, never expire. -->
+            <property name="hibernate.c3p0.timeout" value="1800"/>
+
+            <!--  Number of prepared statements that will be cached.
+                  Hibernate default: 0 , caching is disable. -->
+            <property name="hibernate.c3p0.max_statements" value="50"/>
         </properties>
     </persistence-unit>
 </persistence>
