@@ -9,20 +9,9 @@ public class ConnectSystem {
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsservlet");
 
     public static void main(String[] args) {
-        /*Song song = new Song();
-        song.setTitle("halli");
-        song.setReleased(12312);
-        song.setLabel("sadd");
-        song.setArtist("sadas");*/
-        //ConnectSystem connectSystem = new ConnectSystem();
-        //connectSystem.addSong(song);
-        //addSong("bla","bli","blub",9);
-        //getSong(1);
-        //getSongs();
-        //ENTITY_MANAGER_FACTORY.close();
+
     }
 
-    //public static void addSong(String title, String artist, String label, int released) {
     public void addSong(Song song) {
 
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -31,11 +20,6 @@ public class ConnectSystem {
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            /*Song song = new Song();
-            song.setTitle(title);
-            song.setArtist(artist);
-            song.setLabel(label);
-            song.setReleased(released);*/
 
             entityManager.persist(song);
             entityTransaction.commit();

@@ -5,22 +5,23 @@
 		 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-	<!-- parent pom -->
+    <!-- parent pom -->
     <!-- TEAMNAME in allen poms, Verzeichnisse, .java-Files anpassen -->
     <groupId>htwb.ai.PABB</groupId>
     <artifactId>modules</artifactId>
     <packaging>pom</packaging>
-	<version>1.0</version>
+    <version>1.0</version>
 
-	<!-- sub modules -->
-	<modules>
+    <!-- sub modules -->
+    <modules>
         <module>runmerunner</module>
         <module>songsservlet</module>
         <module>songsWS</module>
     </modules>
 
     <!-- deps, die alle sub modules brauchen -->
-	<dependencies>
+    <dependencies>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -40,7 +41,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version> 3.8.0</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>11</source>
                     <target>11</target>
@@ -68,7 +69,8 @@
                     <prefix>git</prefix>
                     <verbose>false</verbose>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
                     <format>json</format>
                     <gitDescribe>
                         <skip>false</skip>

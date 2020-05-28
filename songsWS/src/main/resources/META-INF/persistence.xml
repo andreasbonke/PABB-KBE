@@ -7,7 +7,7 @@
 
     <!-- Define a name used to get an entity manager. Define that you will
     complete transactions with the DB  -->
-    <persistence-unit name="songsservlet" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="songsWS" transaction-type="RESOURCE_LOCAL">
 
         <!-- Define the class for Hibernate which implements JPA -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>

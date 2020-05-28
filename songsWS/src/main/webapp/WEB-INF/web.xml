@@ -20,6 +20,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>songsWS</servlet-name>
-        <url-pattern>/songs/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 </web-app>
