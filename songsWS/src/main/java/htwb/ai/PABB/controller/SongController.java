@@ -2,9 +2,8 @@ package htwb.ai.PABB.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import htwb.ai.PABB.dao.ISongDAO;
-import htwb.ai.PABB.dao.IUserDAO;
 import htwb.ai.PABB.model.Song;
-import org.springframework.beans.factory.annotation.Autowired;
+import htwb.ai.PABB.model.SongList;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,7 @@ public class SongController {
         songDAO.addSong(song);
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "application/json");
+        //responseHeaders.add("Content-Type", "application/json");
         if(song.getId() != 0) {
             String json = new ObjectMapper().writeValueAsString("Location: /songsWS-PABB/rest/songs/" + song.getId());
             return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
@@ -44,33 +43,33 @@ public class SongController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<String> getAllSongs() throws IOException {
+    @RequestMapping(method = RequestMethod.GET,produces = { "application/json", "application/xml" })
+    public ResponseEntity<SongList> getAllSongs() throws IOException {
 
         List<Song> songs = songDAO.getSongs();
-
+        SongList songList = new SongList();
+        songList.setSongList(songs);
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "application/json");
+        //responseHeaders.add("Content-Type", "application/json");
 
-        String json = new ObjectMapper().writeValueAsString(songs);
-        return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+        //String value = new ObjectMapper().writeValueAsString(songs);
+        return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<String> getSong(@PathVariable("id") int id) throws IOException {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = { "application/json", "application/xml" })
+    public ResponseEntity<Song> getSong(@PathVariable("id") int id) throws IOException {
 
         Song song = songDAO.getSong(id);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         if (song == null) {
-            return new ResponseEntity<String>("Invalid song id",
-                    responseHeaders, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Song>(HttpStatus.NOT_FOUND);
         } else {
-            responseHeaders.add("Content-Type", "application/json");
+            //responseHeaders.add("Content-Type", "application/json");
 
-            String json = new ObjectMapper().writeValueAsString(song);
-            return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+            //String json = new ObjectMapper().writeValueAsString(song);
+            return new ResponseEntity<Song>(song, responseHeaders, HttpStatus.OK);
         }
     }
 

@@ -4,7 +4,9 @@ import com.sun.istack.NotNull;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @Entity
 @Table(name = "songs")
 public class Song implements Serializable {
