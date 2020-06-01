@@ -10,7 +10,7 @@ public class DBSongDAO implements ISongDAO {
 
     //has to be reworked!!!
     //important!! DI in constructor
-    private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWSSong");
+    private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");
 
     private String persistenceUnit1;
 

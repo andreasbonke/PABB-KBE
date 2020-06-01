@@ -1,18 +1,15 @@
 package htwb.ai.PABB.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
-/*
+
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
 
     @Id
     @Column(name = "userid", nullable = false)
-    private String userId;
+    private String userid;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -24,12 +21,12 @@ public class User implements Serializable {
     private String lastname;
 
 
-    public String getUserId() {
-        return userId;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getFirstname() {
@@ -56,4 +53,3 @@ public class User implements Serializable {
         this.password = password;
     }
 }
-*/

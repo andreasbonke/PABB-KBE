@@ -1,5 +1,5 @@
 package htwb.ai.PABB.dao;
-/*
+
 import htwb.ai.PABB.model.User;
 
 import javax.persistence.*;
@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 public class DBUserDAO implements IUserDAO{
 
-    private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWSUser");
+    private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");
 
     private String persistenceUnit2;
 
@@ -17,12 +17,12 @@ public class DBUserDAO implements IUserDAO{
     }
 
     @Override
-    public User getUserByUserId(String userId) {
+    public User getUserByUserId(String userid) {
 
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        String query = "SELECT s FROM Users s WHERE s.userid = :userid";
+        String query = "SELECT s FROM User s WHERE s.userid = :userid";
         TypedQuery<User> tq = entityManager.createQuery(query, User.class);
-        tq.setParameter("userid", userId);
+        tq.setParameter("userid", userid);
         User user = null;
         try {
             user = tq.getSingleResult();
@@ -35,4 +35,3 @@ public class DBUserDAO implements IUserDAO{
         return user;
     }
 }
-*/

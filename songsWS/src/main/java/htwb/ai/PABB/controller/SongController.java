@@ -2,6 +2,7 @@ package htwb.ai.PABB.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import htwb.ai.PABB.dao.ISongDAO;
+import htwb.ai.PABB.dao.IUserDAO;
 import htwb.ai.PABB.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@RestController("SongController")
+@RestController
 @RequestMapping(value="/songs")
 public class SongController {
 
@@ -75,13 +76,13 @@ public class SongController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes="application/json")
     public ResponseEntity<String> updateSong(@PathVariable("id") int id,
-                                                @RequestBody Song song) throws IOException {
+                                             @RequestBody Song song) throws IOException {
         if(song.getTitle() == "" || song.getTitle() == null){
             return new ResponseEntity<String>("Invalid title", new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
         boolean updated = songDAO.updateSong(song, id);
         if (updated) {
-            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.OK);
         } else {
             return new ResponseEntity<String>("Invalid song", new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
@@ -91,7 +92,7 @@ public class SongController {
     public ResponseEntity<String> deleteSong(@PathVariable("id") int id) throws IOException {
         boolean deletedID = songDAO.deleteSong(id);
         if (deletedID == true) {
-            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.OK);
         } else {
             return new ResponseEntity<String>("invalid", HttpStatus.NOT_FOUND);
         }

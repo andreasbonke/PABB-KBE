@@ -101,8 +101,13 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>2.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>songsWS-PABB</finalName>
         <plugins>

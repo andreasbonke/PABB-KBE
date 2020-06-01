@@ -29,9 +29,9 @@
         <property name="persistenceUnit1" value="PU-SongDB"></property>
     </bean>
 
-   <!-- <bean id="dbUserDAO" class="htwb.ai.PABB.dao.DBUserDAO">
+    <bean id="dbUserDAO" class="htwb.ai.PABB.dao.DBUserDAO">
         <property name="persistenceUnit2" value="PU-UserDB"></property>
-    </bean> -->
+    </bean>
     <!-- Wir nutzen Jackson: -->
     <bean id="jsonMessageConverter"
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />

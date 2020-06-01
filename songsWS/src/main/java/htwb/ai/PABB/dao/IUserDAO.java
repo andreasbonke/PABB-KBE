@@ -1,5 +1,5 @@
 package htwb.ai.PABB.dao;
-/*
+
 import htwb.ai.PABB.model.User;
 
 public interface IUserDAO {
@@ -10,4 +10,3 @@ public interface IUserDAO {
     //public void updateUser(User User);
     //public void deleteUser(String userId);
 }
-*/

@@ -1,8 +1,6 @@
 package htwb.ai.PABB.controller;
-/*
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import htwb.ai.PABB.dao.IUserDAO;
-import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.User;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,38 +9,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-@RestController("UserController")
+
+@RestController
 @RequestMapping(value = "/auth")
 public class UserController {
 
     private IUserDAO userDAO;
+
+    final static int tokenlength = 10;
 
     public UserController(IUserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<String> authUser(
-            @RequestParam("userId") String userId,
-            @RequestParam("password") String password)
+    public ResponseEntity<String> authUser(@RequestBody User tmpuser)
             throws IOException {
-
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "application/json");
+        User user = userDAO.getUserByUserId(tmpuser.getUserid());
 
-        User user = userDAO.getUserByUserId(userId);
-
-        if (user == null || user.getUserId() == null ||
-                user.getPassword() == null) {
-            return new ResponseEntity<String>("Declined: No such user!",
-                    HttpStatus.UNAUTHORIZED);
+        if (user == null || user.getPassword() == null || !user.getPassword().equals(tmpuser.getPassword())) {
+            return new ResponseEntity<String>("Declined!",
+                    responseHeaders, HttpStatus.UNAUTHORIZED);
+        } else {
+            responseHeaders.add("Content-Type", "application/json");
+            String json = generateToken(tokenlength);
+            return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
         }
-
-        if (user.getUserId().equals(userId) && user.getPassword().equals(password)) {
-            String token = generateToken(10);
-            return new ResponseEntity<String>(token, HttpStatus.OK);
-        }
-        return new ResponseEntity<String>("Declined!!", HttpStatus.UNAUTHORIZED);
     }
 
     private String generateToken(int n) {
@@ -62,4 +55,3 @@ public class UserController {
     }
 
 }
-*/
