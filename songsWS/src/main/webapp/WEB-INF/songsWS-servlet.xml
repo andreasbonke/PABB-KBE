@@ -26,9 +26,12 @@
     <!-- <bean id="userDAO" class="de.htw.ai.kbe.dao.OnTheFlyUserDAO"/> -->
 
     <bean id="dbSongDAO" class="htwb.ai.PABB.dao.DBSongDAO">
-        <property name="persistenceUnit" value="PU-SongDB"></property>
+        <property name="persistenceUnit1" value="PU-SongDB"></property>
     </bean>
 
+   <!-- <bean id="dbUserDAO" class="htwb.ai.PABB.dao.DBUserDAO">
+        <property name="persistenceUnit2" value="PU-UserDB"></property>
+    </bean> -->
     <!-- Wir nutzen Jackson: -->
     <bean id="jsonMessageConverter"
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />

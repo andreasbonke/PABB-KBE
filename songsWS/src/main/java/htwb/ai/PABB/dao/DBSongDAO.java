@@ -10,13 +10,13 @@ public class DBSongDAO implements ISongDAO {
 
     //has to be reworked!!!
     //important!! DI in constructor
-    private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");
+    private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWSSong");
 
-    private String persistenceUnit;
+    private String persistenceUnit1;
 
-    public void setPersistenceUnit(String pUnit) {
+    public void setPersistenceUnit1(String pUnit) {
         System.out.println("I'm instanciated: " + pUnit);
-        this.persistenceUnit = pUnit;
+        this.persistenceUnit1 = pUnit;
     }
 
     @Override
