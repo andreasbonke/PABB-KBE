@@ -64,6 +64,16 @@ class UserControllerTest {
 
     }
 
+    @Test
+    void postAuthUserShouldReturn400ForNULLUser() throws Exception {
+        User tom = null;
+        System.out.println(asJson(tom));
+
+        mockMvc.perform(post("/auth").contentType(MediaType.APPLICATION_JSON).content(asJson(tom)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
     private String asJson(Object o) {
         try {
             return new ObjectMapper().writeValueAsString(o);

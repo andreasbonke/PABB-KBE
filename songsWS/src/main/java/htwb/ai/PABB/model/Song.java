@@ -20,6 +20,9 @@ public class Song implements Serializable {
     @Column(name = "id", nullable = false)
     private int id;
 
+    public void setId(int id) {
+        this.id = id;
+    }
     @Column(name = "title", nullable = false)
     private String title;
 
