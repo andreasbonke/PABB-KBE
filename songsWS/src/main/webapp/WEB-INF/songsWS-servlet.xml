@@ -23,7 +23,6 @@
 
     <!-- Es kann nur eine Implementierung von IUserDAO angegeben werden:-->
 
-    <!-- <bean id="userDAO" class="de.htw.ai.kbe.dao.OnTheFlyUserDAO"/> -->
 
     <bean id="dbSongDAO" class="htwb.ai.PABB.dao.DBSongDAO">
         <property name="persistenceUnit1" value="PU-SongDB"></property>

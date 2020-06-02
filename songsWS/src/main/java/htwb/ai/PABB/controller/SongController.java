@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -35,8 +37,16 @@ public class SongController {
         HttpHeaders responseHeaders = new HttpHeaders();
         //responseHeaders.add("Content-Type", "application/json");
         if(song.getId() != 0) {
-            String json = new ObjectMapper().writeValueAsString("Location: /songsWS-PABB/rest/songs/" + song.getId());
-            return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
+            //String json = new ObjectMapper().writeValueAsString("Location: /songsWS-PABB/rest/songs/" + song.getId());
+            String uriString = "http://localhost:8080/songsWS-PABB/rest/songs/" + song.getId();
+            URI location = null;
+            try {
+                location = new URI(uriString);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            responseHeaders.setLocation(location);
+            return new ResponseEntity<String>( responseHeaders, HttpStatus.CREATED);
         } else {
             String json = new ObjectMapper().writeValueAsString("Wrong Body");
             return new ResponseEntity<String>(json, responseHeaders, HttpStatus.BAD_REQUEST);
@@ -81,7 +91,7 @@ public class SongController {
         }
         boolean updated = songDAO.updateSong(song, id);
         if (updated) {
-            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.OK);
+            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<String>("Invalid song", new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
@@ -91,7 +101,7 @@ public class SongController {
     public ResponseEntity<String> deleteSong(@PathVariable("id") int id) throws IOException {
         boolean deletedID = songDAO.deleteSong(id);
         if (deletedID == true) {
-            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.OK);
+            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<String>("invalid", HttpStatus.NOT_FOUND);
         }
