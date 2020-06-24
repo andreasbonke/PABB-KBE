@@ -31,6 +31,9 @@
     <bean id="dbUserDAO" class="htwb.ai.PABB.dao.DBUserDAO">
         <property name="persistenceUnit2" value="PU-UserDB"></property>
     </bean>
+    <bean id="authentication" class="htwb.ai.PABB.dao.Authentication">
+
+    </bean>
     <bean id="contentNegotiationManager"
           class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="favorPathExtension" value="false" />

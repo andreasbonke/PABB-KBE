@@ -1,5 +1,6 @@
 package htwb.ai.PABB.controller;
 
+import htwb.ai.PABB.dao.IAuthentication;
 import htwb.ai.PABB.dao.IUserDAO;
 import htwb.ai.PABB.model.User;
 import org.springframework.http.HttpHeaders;
@@ -15,10 +16,12 @@ import java.io.IOException;
 public class UserController {
 
     private IUserDAO userDAO;
+    private IAuthentication authentication;
 
     final static int tokenlength = 10;
 
-    public UserController(IUserDAO userDAO) {
+    public UserController(IUserDAO userDAO, IAuthentication authentication) {
+        this.authentication = authentication;
         this.userDAO = userDAO;
     }
 
@@ -33,25 +36,10 @@ public class UserController {
                     responseHeaders, HttpStatus.UNAUTHORIZED);
         } else {
             responseHeaders.add("Content-Type", "application/json");
-            String json = generateToken(tokenlength);
+            String json = authentication.generateToken(user,tokenlength);
             return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
         }
     }
 
-    private String generateToken(int n) {
-
-        String tokenElements = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "abcdefghijklmnopqrstuvxyz"
-                + "0123456789";
-
-        StringBuilder sb = new StringBuilder(n);
-
-        for (int i = 0; i < n; i++) {
-            int index = (int) (tokenElements.length() * Math.random());
-            sb.append(tokenElements.charAt(index));
-        }
-
-        return sb.toString();
-    }
 
 }

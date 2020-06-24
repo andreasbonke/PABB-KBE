@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class SongControllerTest {
+/*class SongControllerTest {
 
     private MockMvc mockMvc;
 
@@ -117,16 +117,6 @@ class SongControllerTest {
                 mockMvc.perform(get("/songs"))
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk()).andReturn();
-            /*    .andExpect(jsonPath("$.getSongList", hasSize(2)))
-                .andExpect(jsonPath("$.getSongList.[0].id", is(1)))
-                .andExpect(jsonPath("$[0].artist", is("ELIF")))
-                .andExpect(jsonPath("$[0].title", is("EIN LETZTES MAL")))
-                .andExpect(jsonPath("$[0].released", is(2020)))
-                .andExpect(jsonPath("$[1].id", is(2)))
-                .andExpect(jsonPath("$[1].artist", is("Tic Tac Toe")))
-                .andExpect(jsonPath("$[1].title", is("Funky")))
-                .andExpect(jsonPath("$[1].released", is(1998)));
-*/
         ObjectMapper mapper = new ObjectMapper();
         SongList songList = mapper.readValue(result3.getResponse().getContentAsString(), new TypeReference<SongList>() {
         });
@@ -339,4 +329,4 @@ class SongControllerTest {
         }
         return null;
     }
-}
+}*/

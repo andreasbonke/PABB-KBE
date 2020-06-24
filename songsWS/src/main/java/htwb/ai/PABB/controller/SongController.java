@@ -1,6 +1,7 @@
 package htwb.ai.PABB.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import htwb.ai.PABB.dao.IAuthentication;
 import htwb.ai.PABB.dao.ISongDAO;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
@@ -15,95 +16,130 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/songs")
+@RequestMapping(value = "/songs")
 public class SongController {
 
     //@Autowired
     private ISongDAO songDAO;
+    private IAuthentication authentication;
 
-    public SongController (ISongDAO songDAO) {
+
+    public SongController(ISongDAO songDAO, IAuthentication authentication) {
+        this.authentication = authentication;
         this.songDAO = songDAO;
     }
 
-    //@PostMapping
-    //@GetMapping(value="/{id}")
-    @RequestMapping(method = RequestMethod.POST, consumes="application/json")
+
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<String> postSong(
-            @RequestBody Song song) throws IOException {
+            @RequestBody Song song, @RequestHeader("Authorization") String token) throws IOException {
 
-        //int id = contactDAO.addContact(contact);
-        songDAO.addSong(song);
+        if (token != null) {
+            if (authentication.authenticate(token)) {
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        //responseHeaders.add("Content-Type", "application/json");
-        if(song.getId() != 0) {
-            //String json = new ObjectMapper().writeValueAsString("Location: /songsWS-PABB/rest/songs/" + song.getId());
-            String uriString = "http://localhost:8080/songsWS-PABB/rest/songs/" + song.getId();
-            URI location = null;
-            try {
-                location = new URI(uriString);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
+                songDAO.addSong(song);
+                HttpHeaders responseHeaders = new HttpHeaders();
+                if (song.getId() != 0) {
+                    String uriString = "http://localhost:8080/songsWS-PABB/rest/songs/" + song.getId();
+                    URI location = null;
+                    try {
+                        location = new URI(uriString);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                    responseHeaders.setLocation(location);
+                    return new ResponseEntity<String>(responseHeaders, HttpStatus.CREATED);
+                } else {
+                    String json = new ObjectMapper().writeValueAsString("Wrong Body");
+                    return new ResponseEntity<String>(json, responseHeaders, HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
             }
-            responseHeaders.setLocation(location);
-            return new ResponseEntity<String>( responseHeaders, HttpStatus.CREATED);
         } else {
-            String json = new ObjectMapper().writeValueAsString("Wrong Body");
-            return new ResponseEntity<String>(json, responseHeaders, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET,produces = { "application/json", "application/xml" })
-    public ResponseEntity<SongList> getAllSongs() throws IOException {
+    @RequestMapping(method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    public ResponseEntity<SongList> getAllSongs(@RequestHeader("Authorization") String token) throws IOException {
 
-        List<Song> songs = songDAO.getSongs();
-        SongList songList = new SongList();
-        songList.setSongList(songs);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        //responseHeaders.add("Content-Type", "application/json");
+        if (token != null) {
+            if (authentication.authenticate(token)) {
 
-        //String value = new ObjectMapper().writeValueAsString(songs);
-        return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
-    }
-
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = { "application/json", "application/xml" })
-    public ResponseEntity<Song> getSong(@PathVariable("id") int id) throws IOException {
-
-        Song song = songDAO.getSong(id);
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        if (song == null) {
-            return new ResponseEntity<Song>(HttpStatus.NOT_FOUND);
+                List<Song> songs = songDAO.getSongs();
+                SongList songList = new SongList();
+                songList.setSongList(songs);
+                HttpHeaders responseHeaders = new HttpHeaders();
+                return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<SongList>(HttpStatus.BAD_REQUEST);
+            }
         } else {
-            //responseHeaders.add("Content-Type", "application/json");
-
-            //String json = new ObjectMapper().writeValueAsString(song);
-            return new ResponseEntity<Song>(song, responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<SongList>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes="application/json")
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    public ResponseEntity<Song> getSong(@PathVariable("id") int id, @RequestHeader("Authorization") String token) throws IOException {
+
+        if (token != null) {
+            if (authentication.authenticate(token)) {
+                Song song = songDAO.getSong(id);
+
+                HttpHeaders responseHeaders = new HttpHeaders();
+                if (song == null) {
+                    return new ResponseEntity<Song>(HttpStatus.NOT_FOUND);
+                } else {
+
+                    return new ResponseEntity<Song>(song, responseHeaders, HttpStatus.OK);
+                }
+            } else {
+                return new ResponseEntity<Song>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<Song>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity<String> updateSong(@PathVariable("id") int id,
-                                             @RequestBody Song song) throws IOException {
-        if(song.getTitle() == "" || song.getTitle() == null){
-            return new ResponseEntity<String>("Invalid title", new HttpHeaders(), HttpStatus.NOT_FOUND);
-        }
-        boolean updated = songDAO.updateSong(song, id);
-        if (updated) {
-            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+                                             @RequestBody Song song, @RequestHeader("Authorization") String token) throws IOException {
+        if (token != null) {
+            if (authentication.authenticate(token)) {
+                if (song.getTitle() == "" || song.getTitle() == null) {
+                    return new ResponseEntity<String>("Invalid title", new HttpHeaders(), HttpStatus.NOT_FOUND);
+                }
+                boolean updated = songDAO.updateSong(song, id);
+                if (updated) {
+                    return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+                } else {
+                    return new ResponseEntity<String>("Invalid song", new HttpHeaders(), HttpStatus.NOT_FOUND);
+                }
+            } else {
+                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            }
         } else {
-            return new ResponseEntity<String>("Invalid song", new HttpHeaders(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteSong(@PathVariable("id") int id) throws IOException {
-        boolean deletedID = songDAO.deleteSong(id);
-        if (deletedID == true) {
-            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> deleteSong(@PathVariable("id") int id, @RequestHeader("Authorization") String token) throws IOException {
+        if (token != null) {
+            if (authentication.authenticate(token)) {
+                boolean deletedID = songDAO.deleteSong(id);
+                if (deletedID == true) {
+                    return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+                } else {
+                    return new ResponseEntity<String>("invalid", HttpStatus.NOT_FOUND);
+                }
+            } else {
+                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            }
         } else {
-            return new ResponseEntity<String>("invalid", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 }
