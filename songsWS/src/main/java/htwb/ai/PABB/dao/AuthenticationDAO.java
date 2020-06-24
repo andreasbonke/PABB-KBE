@@ -5,7 +5,7 @@ import htwb.ai.PABB.model.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Authentication implements IAuthentication{
+public class AuthenticationDAO implements IAuthenticationDAO {
 
     private Map<User, String> tokenMap = new HashMap<>();
 
@@ -27,7 +27,7 @@ public class Authentication implements IAuthentication{
             sb.append(tokenElements.charAt(index));
         }
 
-        if(!tokenMap.containsKey(user)){
+        if (!tokenMap.containsKey(user)) {
             tokenMap.put(user, sb.toString());
         } else {
             tokenMap.replace(user, sb.toString());
@@ -36,4 +36,15 @@ public class Authentication implements IAuthentication{
 
         return sb.toString();
     }
+
+    @Override
+    public User getUser(String token) {
+        for (Map.Entry<User, String> entry : tokenMap.entrySet()) {
+            if (token.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
 }

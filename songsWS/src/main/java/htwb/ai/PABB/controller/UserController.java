@@ -1,6 +1,6 @@
 package htwb.ai.PABB.controller;
 
-import htwb.ai.PABB.dao.IAuthentication;
+import htwb.ai.PABB.dao.IAuthenticationDAO;
 import htwb.ai.PABB.dao.IUserDAO;
 import htwb.ai.PABB.model.User;
 import org.springframework.http.HttpHeaders;
@@ -16,11 +16,11 @@ import java.io.IOException;
 public class UserController {
 
     private IUserDAO userDAO;
-    private IAuthentication authentication;
+    private IAuthenticationDAO authentication;
 
     final static int tokenlength = 10;
 
-    public UserController(IUserDAO userDAO, IAuthentication authentication) {
+    public UserController(IUserDAO userDAO, IAuthenticationDAO authentication) {
         this.authentication = authentication;
         this.userDAO = userDAO;
     }

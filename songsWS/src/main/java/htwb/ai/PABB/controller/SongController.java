@@ -1,10 +1,10 @@
 package htwb.ai.PABB.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import htwb.ai.PABB.dao.IAuthentication;
+import htwb.ai.PABB.dao.IAuthenticationDAO;
 import htwb.ai.PABB.dao.ISongDAO;
 import htwb.ai.PABB.model.Song;
-import htwb.ai.PABB.model.SongList;
+import htwb.ai.PABB.model.SongCollection;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ public class SongController {
 
     //@Autowired
     private ISongDAO songDAO;
-    private IAuthentication authentication;
+    private IAuthenticationDAO authentication;
 
 
-    public SongController(ISongDAO songDAO, IAuthentication authentication) {
+    public SongController(ISongDAO songDAO, IAuthenticationDAO authentication) {
         this.authentication = authentication;
         this.songDAO = songDAO;
     }
@@ -62,21 +62,21 @@ public class SongController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = {"application/json", "application/xml"})
-    public ResponseEntity<SongList> getAllSongs(@RequestHeader("Authorization") String token) throws IOException {
+    public ResponseEntity<SongCollection> getAllSongs(@RequestHeader("Authorization") String token) throws IOException {
 
         if (token != null) {
             if (authentication.authenticate(token)) {
 
                 List<Song> songs = songDAO.getSongs();
-                SongList songList = new SongList();
-                songList.setSongList(songs);
+                SongCollection songCollection = new SongCollection();
+                songCollection.setSongList(songs);
                 HttpHeaders responseHeaders = new HttpHeaders();
-                return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
+                return new ResponseEntity<SongCollection>(songCollection, responseHeaders, HttpStatus.OK);
             } else {
-                return new ResponseEntity<SongList>(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<SongCollection>(HttpStatus.BAD_REQUEST);
             }
         } else {
-            return new ResponseEntity<SongList>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<SongCollection>(HttpStatus.BAD_REQUEST);
         }
     }
 
