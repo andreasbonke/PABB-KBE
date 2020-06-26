@@ -1,10 +1,7 @@
 package htwb.ai.PABB.dao;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
@@ -17,7 +14,7 @@ public class SongListDAO implements ISongListDAO {
 
     public void setPersistenceUnit3(String pUnit) {
         System.out.println("I'm instanciated: " + pUnit);
-        this.persistenceUnit3= pUnit;
+        this.persistenceUnit3 = pUnit;
     }
 
     @Override
@@ -43,7 +40,20 @@ public class SongListDAO implements ISongListDAO {
 
     @Override
     public SongList getSongList(int id) {
-        return null;
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        String query = "SELECT s FROM SongList s WHERE s.id = :id";
+        TypedQuery<SongList> tq = entityManager.createQuery(query, SongList.class);
+        tq.setParameter("id", id);
+        SongList songList = null;
+        try {
+            songList = tq.getSingleResult();
+            return songList;
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return songList;
     }
 
     @Override

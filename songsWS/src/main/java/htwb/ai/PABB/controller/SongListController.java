@@ -38,16 +38,16 @@ public class SongListController {
             @RequestBody SongList songList, @RequestHeader("Authorization") String token) throws IOException {
 
         if (token != null) {
-            if (authentication.authenticate(token)&& authentication.getUser(token) != null) {
+            if (authentication.authenticate(token) && authentication.getUser(token) != null) {
 
                 Set<Song> songs = songList.getSongs();
-                if(songs != null) {
+                if (songs != null) {
                     HttpHeaders responseHeaders = new HttpHeaders();
 
                     for (Song song : songs) {
-                        if(songListDAO.findSongById(song.getId()) != null){
+                        if (songListDAO.findSongById(song.getId()) != null) {
                             Song tmpsong = songListDAO.findSongById(song.getId());
-                            if(tmpsong.getId() == song.getId() && compare(tmpsong.getTitle(), song.getTitle())&&compare(tmpsong.getArtist(), song.getArtist()) && compare(tmpsong.getLabel(),song.getLabel())){
+                            if (tmpsong.getId() == song.getId() && compare(tmpsong.getTitle(), song.getTitle()) && compare(tmpsong.getArtist(), song.getArtist()) && compare(tmpsong.getLabel(), song.getLabel())) {
 
                             } else {
                                 String json = new ObjectMapper().writeValueAsString("Wrong Song");
@@ -87,6 +87,34 @@ public class SongListController {
         }
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    public ResponseEntity<SongList> getSongList(@PathVariable("id") int id, @RequestHeader("Authorization") String token) throws IOException {
 
+        if (token != null) {
+            if (authentication.authenticate(token) && songListDAO.getSongList(id) != null) {
+                SongList songList = songListDAO.getSongList(id);
+                if (!authentication.getUser(token).getFirstname().equals(songList.getUser().getFirstname()) && !authentication.getUser(token).getLastname().equals(songList.getUser().getLastname())) {
+                    //&& songList.getPrivate() == false) || (authentication.getUser(token) == songList.getUser())) {
+                    if (songList.getPrivate() == true) {
+                        return new ResponseEntity<SongList>(HttpStatus.FORBIDDEN);
+                    }
+                }
+                HttpHeaders responseHeaders = new HttpHeaders();
+                if (songList == null) {
+                    return new ResponseEntity<SongList>(HttpStatus.NOT_FOUND);
+                } else {
+
+                    return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
+                }
+
+            } else {
+                HttpHeaders responseHeaders = new HttpHeaders();
+                return new ResponseEntity<SongList>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            return new ResponseEntity<SongList>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
