@@ -1,15 +1,22 @@
 package htwb.ai.PABB.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @XmlRootElement
 @Entity
-@Table(name = "Songlist")
+@Table(name = "songlist")
 public class SongList implements Serializable {
 
     @Id
@@ -26,12 +33,26 @@ public class SongList implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "public")
-    private Boolean isPublic;
+    @Column(name = "isPrivate")
+    @JsonProperty("isPrivate")
+    @XmlAttribute(name = "isPrivate")
+    private Boolean isPrivate;
 
-    //@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @Column(name = "songs")
-    private Collection<Song> songs;
+    @JoinTable(name = "songlist_songid",
+           joinColumns = {@JoinColumn(name = "listid", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "songid", referencedColumnName = "id")})
+    @JsonProperty("songList")
+    private Set<Song> songs = new HashSet<Song>();
+
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
 
     public int getId() {
         return id;
@@ -57,19 +78,11 @@ public class SongList implements Serializable {
         this.name = name;
     }
 
-    public Boolean getPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public Collection<Song> getSongs() {
+    public Set<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(Collection<Song> songs) {
+    public void setSongs(Set<Song> songs) {
         this.songs = songs;
     }
 }

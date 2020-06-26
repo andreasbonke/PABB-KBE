@@ -1,11 +1,13 @@
 package htwb.ai.PABB.dao;
 
-import htwb.ai.PABB.model.SongList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+
+import htwb.ai.PABB.model.Song;
+import htwb.ai.PABB.model.SongList;
 
 public class SongListDAO implements ISongListDAO {
 
@@ -53,4 +55,17 @@ public class SongListDAO implements ISongListDAO {
     public boolean deleteSong(int id) {
         return false;
     }
+
+    @Override
+    public Song findSongById(Integer id) {
+        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+        Song entity = null;
+        try {
+            entity = em.find(Song.class, id);
+        } finally {
+            em.close();
+        }
+        return entity;
+    }
+
 }

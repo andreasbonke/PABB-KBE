@@ -33,7 +33,7 @@
     </bean>
     <bean id="authentication" class="htwb.ai.PABB.dao.AuthenticationDAO">
     </bean>
-    <bean id="dbSongListDAO" class="htwb.ai.PABB.dao.SongListDAO">
+    <bean id="SongListDAO" class="htwb.ai.PABB.dao.SongListDAO">
         <property name="persistenceUnit3" value="PU-UserDB"></property>
     </bean>
     <bean id="contentNegotiationManager"
