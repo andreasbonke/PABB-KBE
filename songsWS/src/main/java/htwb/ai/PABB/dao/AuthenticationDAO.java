@@ -47,4 +47,14 @@ public class AuthenticationDAO implements IAuthenticationDAO {
         return null;
     }
 
+    @Override
+    public String getToken(String userid) {
+        for (Map.Entry<User, String> entry : tokenMap.entrySet()) {
+            if (userid.equals(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
 }

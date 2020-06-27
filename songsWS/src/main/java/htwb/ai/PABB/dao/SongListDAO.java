@@ -85,13 +85,13 @@ public class SongListDAO implements ISongListDAO {
     public boolean deleteSong(int id) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction entityTransaction = null;
-        Song song = null;
+        SongList songList = null;
 
         try {
             entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
-            song = entityManager.find(Song.class, id);
-            entityManager.remove(song);
+            songList = entityManager.find(SongList.class, id);
+            entityManager.remove(songList);
             entityTransaction.commit();
             entityManager.close();
             return true;

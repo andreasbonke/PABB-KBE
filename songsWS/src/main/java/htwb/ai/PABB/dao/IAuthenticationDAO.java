@@ -7,4 +7,6 @@ public interface IAuthenticationDAO {
     public boolean authenticate(String token);
     public String generateToken(User user, int n);
     public User getUser(String token);
-}
+    public String getToken(String userid);
+
+    }

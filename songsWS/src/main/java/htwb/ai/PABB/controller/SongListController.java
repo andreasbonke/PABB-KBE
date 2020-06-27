@@ -32,7 +32,7 @@ public class SongListController {
         this.songListDAO = songListDAO;
     }
 
-    public static boolean compare(String str1, String str2) {
+    private static boolean compare(String str1, String str2) {
         return (str1 == null ? str2 == null : str1.equals(str2));
     }
 
@@ -96,17 +96,17 @@ public class SongListController {
         if (token != null) {
             if (authentication.authenticate(token) && songListDAO.getSongList(id) != null) {
                 SongList songList = songListDAO.getSongList(id);
-                if (!authentication.getUser(token).getFirstname().equals(songList.getUser().getFirstname()) && !authentication.getUser(token).getLastname().equals(songList.getUser().getLastname())) {
-                    //&& songList.getPrivate() == false) || (authentication.getUser(token) == songList.getUser())) {
-                    if (songList.getPrivate() == true) {
-                        return new ResponseEntity<SongList>(HttpStatus.FORBIDDEN);
-                    }
-                }
+
                 HttpHeaders responseHeaders = new HttpHeaders();
                 if (songList == null) {
                     return new ResponseEntity<SongList>(HttpStatus.NOT_FOUND);
                 } else {
-
+                    if (!authentication.getUser(token).getFirstname().equals(songList.getUser().getFirstname()) && !authentication.getUser(token).getLastname().equals(songList.getUser().getLastname())) {
+                        //&& songList.getPrivate() == false) || (authentication.getUser(token) == songList.getUser())) {
+                        if (songList.getPrivate() == true) {
+                            return new ResponseEntity<SongList>(HttpStatus.FORBIDDEN);
+                        }
+                    }
                     return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
                 }
 
@@ -147,5 +147,30 @@ public class SongListController {
             HttpHeaders responseHeaders = new HttpHeaders();
             return new ResponseEntity<List<SongList>>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteSongList(@PathVariable("id") int id, @RequestHeader("Authorization") String token) throws IOException {
+        if (token != null) {
+            if (authentication.authenticate(token)) {
+                SongList songList = songListDAO.getSongList(id);
+
+                if (songList != null) {
+                    if(songList.getUser().getUserid().equals(authentication.getUser(token).getUserid())){
+                        boolean deletedID = songListDAO.deleteSong(id);
+                        if (deletedID == true) {
+                            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+                        } else {
+                            return new ResponseEntity<String>("invalid", HttpStatus.NOT_FOUND);
+                        }
+                    } else {
+                        return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
+                    }
+                }
+
+            }
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 }
