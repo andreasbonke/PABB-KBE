@@ -6,6 +6,9 @@ import javax.persistence.*;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SongListDAO implements ISongListDAO {
 
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");
@@ -57,13 +60,49 @@ public class SongListDAO implements ISongListDAO {
     }
 
     @Override
-    public SongList getSongList(String ownerid) {
-        return null;
+    public List<SongList> getSongList(String ownerid) {
+        //EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        //String query = "SELECT s FROM SongList s WHERE s.user.id = :ownerid";
+        //TypedQuery<SongList> tq = entityManager.createQuery(query, SongList.class);
+        List<SongList> songs = new ArrayList<>();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        Query q = entityManager.createQuery("SELECT s FROM SongList s WHERE s.user.id = :ownerid")
+                .setParameter("ownerid", ownerid);
+        //return q.getResultList();
+        try {
+            songs = q.getResultList();
+            //songs.forEach(song -> System.out.println(song.getTitle() + " by " + song.getArtist() + "  " + song.getLabel() + song.getReleased()));
+            return songs;
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return songs;
     }
 
     @Override
     public boolean deleteSong(int id) {
-        return false;
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction entityTransaction = null;
+        Song song = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            song = entityManager.find(Song.class, id);
+            entityManager.remove(song);
+            entityTransaction.commit();
+            entityManager.close();
+            return true;
+        } catch (Exception ex) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+            ex.printStackTrace();
+            entityManager.close();
+            return false;
+        }
     }
 
     @Override

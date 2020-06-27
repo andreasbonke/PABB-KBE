@@ -7,6 +7,7 @@ import htwb.ai.PABB.dao.ISongDAO;
 import htwb.ai.PABB.dao.ISongListDAO;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
+import htwb.ai.PABB.model.User;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -117,4 +120,32 @@ public class SongListController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    public ResponseEntity<List<SongList>> getSongListByOwnerID(@RequestHeader("Authorization") String token, @RequestParam("userId") String userId) throws IOException {
+
+        if (token != null) {
+            if (authentication.authenticate(token)) {
+                User tmpuser = authentication.getUser(token);
+                List<SongList> songs = songListDAO.getSongList(userId);
+                HttpHeaders responseHeaders = new HttpHeaders();
+                if (tmpuser.getUserid().equals(userId)) {
+                    return new ResponseEntity<List<SongList>>(songs, responseHeaders, HttpStatus.ACCEPTED);
+                } else {
+                    List<SongList> tmpsongs = new ArrayList<SongList>();
+                    for (int i = 0; i < songs.size(); i++) {
+                        if (songs.get(i).getPrivate() == false) {
+                            tmpsongs.add(songs.get(i));
+                        }
+                    }
+                    return new ResponseEntity<List<SongList>>(tmpsongs, responseHeaders, HttpStatus.ACCEPTED);
+                }
+            } else {
+                HttpHeaders responseHeaders = new HttpHeaders();
+                return new ResponseEntity<List<SongList>>(responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            return new ResponseEntity<List<SongList>>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

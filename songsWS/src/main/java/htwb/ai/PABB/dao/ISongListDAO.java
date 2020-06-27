@@ -9,7 +9,7 @@ public interface ISongListDAO {
 
     public void addSongList(SongList songList);
     public SongList getSongList(int id);
-    public SongList getSongList(String ownerid);
+    public List<SongList> getSongList(String ownerid);
     public boolean deleteSong(int id);
     public Song findSongById(Integer id);
 
