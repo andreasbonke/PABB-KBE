@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+/*
 @SpringBootTest
 @TestPropertySource(locations = "/test.properties")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -102,4 +102,4 @@ class SongListControllerTest {
     @Test
     void deleteSongList() {
     }
-}
+}*/
