@@ -5,10 +5,13 @@ import javax.persistence.*;
 
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SongListDAO implements ISongListDAO {
 
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");

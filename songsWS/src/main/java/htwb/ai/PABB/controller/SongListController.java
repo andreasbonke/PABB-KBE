@@ -8,6 +8,7 @@ import htwb.ai.PABB.dao.ISongListDAO;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
 import htwb.ai.PABB.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,18 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/songList")
+@RequestMapping(value = "/rest/songList")
 public class SongListController {
+    @Autowired
     private ISongListDAO songListDAO;
+    @Autowired
     private IAuthenticationDAO authentication;
 
 
-    public SongListController(ISongListDAO songListDAO, IAuthenticationDAO authentication) {
+    /*public SongListController(ISongListDAO songListDAO, IAuthenticationDAO authentication) {
         this.authentication = authentication;
         this.songListDAO = songListDAO;
-    }
+    }*/
 
     private static boolean compare(String str1, String str2) {
         return (str1 == null ? str2 == null : str1.equals(str2));

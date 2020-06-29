@@ -1,6 +1,7 @@
 package htwb.ai.PABB.dao;
 
 import htwb.ai.PABB.model.User;
+import org.springframework.stereotype.Repository;
 
 public interface IUserDAO {
 

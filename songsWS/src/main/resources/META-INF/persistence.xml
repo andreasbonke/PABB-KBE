@@ -22,7 +22,7 @@
             <!-- Username -->
             <property name="javax.persistence.jdbc.user" value="_s0563842__songdb_generic" />
             <!-- Password -->
-            <property name="javax.persistence.jdbc.password" value="andreasundpeter" />
+            <property name="javax.persistence.jdbc.password" value="peterundandreas" />
 
             <!-- The connection is released after each statement execution
                  and reacquired prior to running the next statement.  -->

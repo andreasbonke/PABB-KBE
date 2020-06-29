@@ -2,6 +2,7 @@ package htwb.ai.PABB.dao;
 
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

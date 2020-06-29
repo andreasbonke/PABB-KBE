@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-/*
+
 @SpringBootTest
 @TestPropertySource(locations = "/test.properties")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -42,17 +42,13 @@ class SongListControllerTest {
 
     @BeforeEach
     public void setupMockMvc() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new SongListController(songListDAO, authentication)).build();
-        mockMvcUser = MockMvcBuilders.standaloneSetup(new UserController(userDAO, authentication)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new SongListController()).build();
+        mockMvcUser = MockMvcBuilders.standaloneSetup(new UserController()).build();
 
     }
 
     @Test
     void postSongList() throws Exception {
-        String s = "{\"userId\":\"mmuster\","
-                + "\"firstName\":\"Maxime\", "
-                + "\"lastName\":\"Muster\","
-                + "\"email\":\"mm@mail.de\"}";
 
         String SongListToSave = "{\n" +
                 "\t\"isPrivate\": false,\n" +
@@ -102,4 +98,4 @@ class SongListControllerTest {
     @Test
     void deleteSongList() {
     }
-}*/
+}

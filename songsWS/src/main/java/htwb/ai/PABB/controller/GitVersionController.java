@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/version")
+@RequestMapping(value = "/rest/version")
 public class GitVersionController {
 
     private String gitVersion;

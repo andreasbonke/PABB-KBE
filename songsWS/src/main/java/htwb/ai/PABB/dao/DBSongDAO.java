@@ -1,11 +1,14 @@
 package htwb.ai.PABB.dao;
 
 import htwb.ai.PABB.model.Song;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DBSongDAO implements ISongDAO {
 
     //has to be reworked!!!

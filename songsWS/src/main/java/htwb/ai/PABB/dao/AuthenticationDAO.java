@@ -1,10 +1,13 @@
 package htwb.ai.PABB.dao;
 
 import htwb.ai.PABB.model.User;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class AuthenticationDAO implements IAuthenticationDAO {
 
     private Map<User, String> tokenMap = new HashMap<>();

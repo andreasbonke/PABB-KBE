@@ -3,6 +3,7 @@ package htwb.ai.PABB.controller;
 import htwb.ai.PABB.dao.IAuthenticationDAO;
 import htwb.ai.PABB.dao.IUserDAO;
 import htwb.ai.PABB.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,18 +13,20 @@ import java.io.IOException;
 
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "/songsWS-PABB/rest/auth")
 public class UserController {
 
+    @Autowired
     private IUserDAO userDAO;
+    @Autowired
     private IAuthenticationDAO authentication;
 
     final static int tokenlength = 10;
 
-    public UserController(IUserDAO userDAO, IAuthenticationDAO authentication) {
+    /*public UserController(IUserDAO userDAO, IAuthenticationDAO authentication) {
         this.authentication = authentication;
         this.userDAO = userDAO;
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<String> authUser(@RequestBody User tmpuser)

@@ -5,6 +5,7 @@ import htwb.ai.PABB.dao.IAuthenticationDAO;
 import htwb.ai.PABB.dao.ISongDAO;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +17,19 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/songs")
+@RequestMapping(value = "/rest/songs")
 public class SongController {
 
-    //@Autowired
+    @Autowired
     private ISongDAO songDAO;
+    @Autowired
     private IAuthenticationDAO authentication;
 
 
-    public SongController(ISongDAO songDAO, IAuthenticationDAO authentication) {
+    /*public SongController(ISongDAO songDAO, IAuthenticationDAO authentication) {
         this.authentication = authentication;
         this.songDAO = songDAO;
-    }
+    }*/
 
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")

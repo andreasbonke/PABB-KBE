@@ -1,10 +1,13 @@
 package htwb.ai.PABB.dao;
 
 import htwb.ai.PABB.model.User;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 
 
+@Service
 public class DBUserDAO implements IUserDAO{
 
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");
