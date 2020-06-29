@@ -74,7 +74,6 @@ public class SongListDAO implements ISongListDAO {
         //return q.getResultList();
         try {
             songs = q.getResultList();
-            //songs.forEach(song -> System.out.println(song.getTitle() + " by " + song.getArtist() + "  " + song.getLabel() + song.getReleased()));
             return songs;
         } catch (NoResultException e) {
             e.printStackTrace();
@@ -108,7 +107,7 @@ public class SongListDAO implements ISongListDAO {
         }
     }
 
-    @Override
+    /*@Override
     public Song findSongById(Integer id) {
         EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
         Song entity = null;
@@ -118,6 +117,6 @@ public class SongListDAO implements ISongListDAO {
             em.close();
         }
         return entity;
-    }
+    }*/
 
 }

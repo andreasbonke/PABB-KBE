@@ -1,6 +1,5 @@
 package htwb.ai.PABB.controller;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import htwb.ai.PABB.dao.IAuthenticationDAO;
 import htwb.ai.PABB.dao.ISongDAO;
@@ -8,7 +7,6 @@ import htwb.ai.PABB.dao.ISongListDAO;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
 import htwb.ai.PABB.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +20,21 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/rest/songList")
+@RequestMapping(value = "/songsWS-PABB/rest/songList")
 public class SongListController {
-    @Autowired
+
     private ISongListDAO songListDAO;
-    @Autowired
+
     private IAuthenticationDAO authentication;
 
+    private ISongDAO songDAO;
 
-    /*public SongListController(ISongListDAO songListDAO, IAuthenticationDAO authentication) {
+
+    public SongListController(ISongListDAO songListDAO, IAuthenticationDAO authentication, ISongDAO songDAO) {
         this.authentication = authentication;
         this.songListDAO = songListDAO;
-    }*/
+        this.songDAO = songDAO;
+    }
 
     private static boolean compare(String str1, String str2) {
         return (str1 == null ? str2 == null : str1.equals(str2));
@@ -47,12 +48,13 @@ public class SongListController {
             if (authentication.authenticate(token) && authentication.getUser(token) != null) {
 
                 Set<Song> songs = songList.getSongs();
+
                 if (songs != null) {
                     HttpHeaders responseHeaders = new HttpHeaders();
 
                     for (Song song : songs) {
-                        if (songListDAO.findSongById(song.getId()) != null) {
-                            Song tmpsong = songListDAO.findSongById(song.getId());
+                        if (songDAO.getSong(song.getId()) != null) {
+                            Song tmpsong = songDAO.getSong(song.getId());
                             if (tmpsong.getId() == song.getId() && compare(tmpsong.getTitle(), song.getTitle()) && compare(tmpsong.getArtist(), song.getArtist()) && compare(tmpsong.getLabel(), song.getLabel())) {
 
                             } else {
@@ -65,7 +67,7 @@ public class SongListController {
                         }
                     }
 
-                    songList.setUser(authentication.getUser(token));
+                    songList.setOwnerId(authentication.getUser(token));
                     songListDAO.addSongList(songList);
                     if (songList.getId() != 0) {
                         String uriString = "http://localhost:8080/songsWS-PABB/rest/songlist/" + songList.getId();
@@ -86,10 +88,12 @@ public class SongListController {
                     return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
                 }
             } else {
-                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+                String json = new ObjectMapper().writeValueAsString("1");
+                return new ResponseEntity<String>(json,HttpStatus.BAD_REQUEST);
             }
         } else {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            String json = new ObjectMapper().writeValueAsString("2");
+            return new ResponseEntity<String>(json,HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -104,9 +108,9 @@ public class SongListController {
                 if (songList == null) {
                     return new ResponseEntity<SongList>(HttpStatus.NOT_FOUND);
                 } else {
-                    if (!authentication.getUser(token).getFirstname().equals(songList.getUser().getFirstname()) && !authentication.getUser(token).getLastname().equals(songList.getUser().getLastname())) {
+                    if (!authentication.getUser(token).getUserid().equals(songList.getOwnerId())) {
                         //&& songList.getPrivate() == false) || (authentication.getUser(token) == songList.getUser())) {
-                        if (songList.getPrivate() == true) {
+                        if (songList.getIsPrivate() == true) {
                             return new ResponseEntity<SongList>(HttpStatus.FORBIDDEN);
                         }
                     }
@@ -136,7 +140,7 @@ public class SongListController {
                 } else {
                     List<SongList> tmpsongs = new ArrayList<SongList>();
                     for (int i = 0; i < songs.size(); i++) {
-                        if (songs.get(i).getPrivate() == false) {
+                        if (songs.get(i).getIsPrivate() == false) {
                             tmpsongs.add(songs.get(i));
                         }
                     }
@@ -159,7 +163,7 @@ public class SongListController {
                 SongList songList = songListDAO.getSongList(id);
 
                 if (songList != null) {
-                    if(songList.getUser().getUserid().equals(authentication.getUser(token).getUserid())){
+                    if(songList.getOwnerId().equals(authentication.getUser(token).getUserid())){
                         boolean deletedID = songListDAO.deleteSong(id);
                         if (deletedID == true) {
                             return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);

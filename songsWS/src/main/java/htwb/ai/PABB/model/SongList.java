@@ -1,17 +1,15 @@
 package htwb.ai.PABB.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.istack.NotNull;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @XmlRootElement
@@ -26,16 +24,16 @@ public class SongList implements Serializable {
     @Column(name = "id", nullable = false)
     private int id;
 
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "ownerId")
+    //@JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ownerid")
+    @JoinColumn(name = "ownerId")
     private User user;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "isPrivate")
-    @JsonProperty("isPrivate")
-    @XmlAttribute(name = "isPrivate")
     private Boolean isPrivate;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -46,12 +44,12 @@ public class SongList implements Serializable {
     @JsonProperty("songList")
     private Set<Song> songs = new HashSet<Song>();
 
-    public Boolean getPrivate() {
+    public Boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(Boolean aPrivate) {
-        isPrivate = aPrivate;
+    public void setIsPrivate(Boolean isPrivate) {
+        isPrivate = isPrivate;
     }
 
     public int getId() {
@@ -62,11 +60,11 @@ public class SongList implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getOwnerId() {
+        return user.getUserid();
     }
 
-    public void setUser(User user) {
+    public void setOwnerId(User user) {
         this.user = user;
     }
 

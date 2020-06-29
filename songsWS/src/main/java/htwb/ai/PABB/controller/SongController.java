@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/rest/songs")
+@RequestMapping(value = "/songsWS-PABB/rest/songs")
 public class SongController {
 
     @Autowired
