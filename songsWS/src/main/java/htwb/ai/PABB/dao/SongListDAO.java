@@ -107,16 +107,5 @@ public class SongListDAO implements ISongListDAO {
         }
     }
 
-    /*@Override
-    public Song findSongById(Integer id) {
-        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-        Song entity = null;
-        try {
-            entity = em.find(Song.class, id);
-        } finally {
-            em.close();
-        }
-        return entity;
-    }*/
 
 }

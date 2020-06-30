@@ -99,25 +99,29 @@ public class SongListController {
     public ResponseEntity<SongList> getSongList(@PathVariable("id") int id, @RequestHeader("Authorization") String token) throws IOException {
 
         if (token != null) {
-            if (authentication.authenticate(token) && songListDAO.getSongList(id) != null) {
-                SongList songList = songListDAO.getSongList(id);
+            if (authentication.authenticate(token)) {
+                if (songListDAO.getSongList(id) != null) {
+                    SongList songList = songListDAO.getSongList(id);
 
-                HttpHeaders responseHeaders = new HttpHeaders();
-                if (songList == null) {
-                    return new ResponseEntity<SongList>(HttpStatus.NOT_FOUND);
-                } else {
-                    if (!authentication.getUser(token).getUserid().equals(songList.getOwnerId())) {
-                        //&& songList.getPrivate() == false) || (authentication.getUser(token) == songList.getUser())) {
-                        if (songList.getIsPrivate() == true) {
-                            return new ResponseEntity<SongList>(HttpStatus.FORBIDDEN);
+                    HttpHeaders responseHeaders = new HttpHeaders();
+                    if (songList == null) {
+                        return new ResponseEntity<SongList>(HttpStatus.NOT_FOUND);
+                    } else {
+                        if (!authentication.getUser(token).getUserid().equals(songList.getOwnerId())) {
+                            //&& songList.getPrivate() == false) || (authentication.getUser(token) == songList.getUser())) {
+                            if (songList.getIsPrivate() == true) {
+                                return new ResponseEntity<SongList>(HttpStatus.FORBIDDEN);
+                            }
                         }
+                        return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
                     }
-                    return new ResponseEntity<SongList>(songList, responseHeaders, HttpStatus.OK);
+                } else {
+                    HttpHeaders responseHeaders = new HttpHeaders();
+                    return new ResponseEntity<SongList>(responseHeaders, HttpStatus.NOT_FOUND);
                 }
-
             } else {
                 HttpHeaders responseHeaders = new HttpHeaders();
-                return new ResponseEntity<SongList>(responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<SongList>(responseHeaders, HttpStatus.UNAUTHORIZED);
             }
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -161,7 +165,7 @@ public class SongListController {
                 SongList songList = songListDAO.getSongList(id);
 
                 if (songList != null) {
-                    if(songList.getOwnerId().equals(authentication.getUser(token).getUserid())){
+                    if (songList.getOwnerId().equals(authentication.getUser(token).getUserid())) {
                         boolean deletedID = songListDAO.deleteSong(id);
                         if (deletedID == true) {
                             return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);

@@ -49,7 +49,7 @@ public class SongList implements Serializable {
     }
 
     public void setIsPrivate(Boolean isPrivate) {
-        isPrivate = isPrivate;
+        this.isPrivate = isPrivate;
     }
 
     public int getId() {

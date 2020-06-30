@@ -64,6 +64,9 @@ class SongListControllerTest {
         testSongDAO.addSong(song1);
         testSongDAO.addSong(song2);
 
+        Set<Song> songs2 = new HashSet<>();
+        songs2.add(song1);
+
         User tom = new User();
         tom.setUserid("babo");
         tom.setFirstname("tom");
@@ -73,12 +76,30 @@ class SongListControllerTest {
         String token = testAuthenticationDAO.generateToken(tom,10);
         tokenMap.put(tom.getUserid(), token);
 
+        User susi = new User();
+        susi.setUserid("susi");
+        susi.setFirstname("susi");
+        susi.setLastname("sorglos");
+        susi.setPassword("pass");
+
+        String token2 = testAuthenticationDAO.generateToken(susi,10);
+        tokenMap.put(susi.getUserid(), token2);
+
         testSongList1.setIsPrivate(false);
         testSongList1.setOwnerId(tom);
         testSongList1.setName("HITS de TOM");
         testSongList1.setSongs(songs);
-        System.out.println(song1.getId() + song1.getArtist() + song1.getLabel());
-        System.out.println(song2.getId());
+
+
+        testSongList2.setIsPrivate(true);
+        testSongList2.setOwnerId(susi);
+        testSongList2.setName("HITS de Susi");
+        testSongList2.setSongs(songs2);
+
+        System.out.println(testSongList2.getId() + "   " + testSongList2.getName() + testSongList2.getIsPrivate()+ testSongList2.getSongs());
+        System.out.println(susi.getUserid());
+        System.out.println(testAuthenticationDAO.getToken(susi.getUserid()));
+
     }
 
    @Test
@@ -246,8 +267,51 @@ class SongListControllerTest {
     void getSongList200() throws Exception {
         toSongList(testSongList1);
         mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")))
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
+    }
+
+    /*@Test
+    void getSongList200XML() throws Exception {
+        toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")).header("Content-Type", "application/xml"))
+                .andExpect(content().contentType(MediaType.APPLICATION_XML))
+                .andExpect(status().isOk()).andReturn();
+    }*/
+
+    @Test
+    void getSongList401WRONGAUTH() throws Exception {
+        toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , "dsadsdas"))
+                .andExpect(status().isUnauthorized()).andReturn();
+    }
+
+    @Test
+    void getSongList400NOAUTH() throws Exception {
+        toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1"))
+                .andExpect(status().isBadRequest()).andReturn();
+    }
+
+    @Test
+    void getSongList403PRIVATEWRONGUSER() throws Exception {
+        toSongList(testSongList2);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")))
+                .andExpect(status().isForbidden()).andReturn();
+    }
+
+    @Test
+    void getSongList404WRONGID() throws Exception {
+        toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/2").header("Authorization" , tokenMap.get("babo")))
+                .andExpect(status().isNotFound()).andReturn();
+    }
+
+    @Test
+    void getSongList404NOSONGLIST() throws Exception {
+        //toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")))
+                .andExpect(status().isNotFound()).andReturn();
     }
 
     @Test
