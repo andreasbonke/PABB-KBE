@@ -11,11 +11,17 @@ import java.util.List;
 @Service
 public class DBSongDAO implements ISongDAO {
 
-    //has to be reworked!!!
-    //important!! DI in constructor
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");
 
     private String persistenceUnit1;
+
+    public DBSongDAO(){
+
+    }
+
+    public DBSongDAO(EntityManagerFactory ENTITY_MANAGER_FACTORY){
+        this.ENTITY_MANAGER_FACTORY = ENTITY_MANAGER_FACTORY;
+    }
 
     public void setPersistenceUnit1(String pUnit) {
         System.out.println("I'm instanciated: " + pUnit);

@@ -14,6 +14,14 @@ public class DBUserDAO implements IUserDAO{
 
     private String persistenceUnit2;
 
+    public DBUserDAO(){
+
+    }
+
+    public DBUserDAO(EntityManagerFactory ENTITY_MANAGER_FACTORY){
+        this.ENTITY_MANAGER_FACTORY = ENTITY_MANAGER_FACTORY;
+    }
+
     public void setPersistenceUnit2(String pUnit) {
         System.out.println("I'm instanciated: " + pUnit);
         this.persistenceUnit2 = pUnit;

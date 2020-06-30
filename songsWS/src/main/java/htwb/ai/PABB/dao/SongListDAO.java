@@ -16,6 +16,14 @@ public class SongListDAO implements ISongListDAO {
 
     private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("songsWS");
 
+    public SongListDAO(){
+
+    }
+
+    public SongListDAO(EntityManagerFactory ENTITY_MANAGER_FACTORY){
+        this.ENTITY_MANAGER_FACTORY = ENTITY_MANAGER_FACTORY;
+    }
+
     private String persistenceUnit3;
 
     public void setPersistenceUnit3(String pUnit) {

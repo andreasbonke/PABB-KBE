@@ -26,7 +26,7 @@ public class SongList implements Serializable {
 
     //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "ownerId")
     //@JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST},fetch = FetchType.EAGER)
     @JoinColumn(name = "ownerId")
     private User user;
 

@@ -82,19 +82,11 @@ class SongListControllerTest {
         songs2.add(song3);
 
         User tom = new User("babo", "geheim", "tom", "tomi");
-        //tom.setUserid("babo");
-        //tom.setFirstname("tom");
-        //tom.setLastname("tomi");
-        //tom.setPassword("geheim");
 
         String token = testAuthenticationDAO.generateToken(tom, 10);
         tokenMap.put(tom.getUserid(), token);
 
         User susi = new User("susi", "pass", "susi", "sorglos");
-        susi.setUserid("susi");
-        susi.setFirstname("susi");
-        susi.setLastname("sorglos");
-        susi.setPassword("pass");
 
         String token2 = testAuthenticationDAO.generateToken(susi, 10);
         tokenMap.put(susi.getUserid(), token2);
