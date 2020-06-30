@@ -1,15 +1,16 @@
 package htwb.ai.PABB.controller;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import htwb.ai.PABB.dao.*;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
+import htwb.ai.PABB.model.SongListCollection;
 import htwb.ai.PABB.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,10 +35,14 @@ class SongListControllerTest {
 
     private SongList testSongList1 = new SongList();
     private SongList testSongList2 = new SongList();
+    private SongList testSongList3 = new SongList();
+
     private TestAuthenticationDAO testAuthenticationDAO = new TestAuthenticationDAO();
     private TestSongDAO testSongDAO = new TestSongDAO();
     private Map<String, String> tokenMap = new HashMap<>();
     private TestSongListDAO testSongListDAO = new TestSongListDAO();
+    private Set<Song> songs = new HashSet<>();
+
 
     @BeforeEach
     public void setup() {
@@ -58,7 +63,13 @@ class SongListControllerTest {
         song2.setReleased(1985);
         song2.setLabel("Virgin");
 
-        Set<Song> songs = new HashSet<>();
+        Song song3 = new Song();
+        song3.setId(3);
+        song3.setArtist("JAVA");
+        song3.setTitle("HI");
+        song3.setReleased(1985);
+        song3.setLabel("DU");
+
         songs.add(song1);
         songs.add(song2);
         testSongDAO.addSong(song1);
@@ -67,22 +78,25 @@ class SongListControllerTest {
         Set<Song> songs2 = new HashSet<>();
         songs2.add(song1);
 
-        User tom = new User();
-        tom.setUserid("babo");
-        tom.setFirstname("tom");
-        tom.setLastname("tomi");
-        tom.setPassword("geheim");
+        Set<Song> songs3 = new HashSet<>();
+        songs2.add(song3);
 
-        String token = testAuthenticationDAO.generateToken(tom,10);
+        User tom = new User("babo", "geheim", "tom", "tomi");
+        //tom.setUserid("babo");
+        //tom.setFirstname("tom");
+        //tom.setLastname("tomi");
+        //tom.setPassword("geheim");
+
+        String token = testAuthenticationDAO.generateToken(tom, 10);
         tokenMap.put(tom.getUserid(), token);
 
-        User susi = new User();
+        User susi = new User("susi", "pass", "susi", "sorglos");
         susi.setUserid("susi");
         susi.setFirstname("susi");
         susi.setLastname("sorglos");
         susi.setPassword("pass");
 
-        String token2 = testAuthenticationDAO.generateToken(susi,10);
+        String token2 = testAuthenticationDAO.generateToken(susi, 10);
         tokenMap.put(susi.getUserid(), token2);
 
         testSongList1.setIsPrivate(false);
@@ -90,23 +104,27 @@ class SongListControllerTest {
         testSongList1.setName("HITS de TOM");
         testSongList1.setSongs(songs);
 
+        testSongList3.setIsPrivate(true);
+        testSongList3.setOwnerId(tom);
+        testSongList3.setName("PRIVATE HITS de TOM");
+        testSongList3.setSongs(songs3);
 
         testSongList2.setIsPrivate(true);
         testSongList2.setOwnerId(susi);
         testSongList2.setName("HITS de Susi");
         testSongList2.setSongs(songs2);
 
-        System.out.println(testSongList2.getId() + "   " + testSongList2.getName() + testSongList2.getIsPrivate()+ testSongList2.getSongs());
+        System.out.println(testSongList2.getId() + "   " + testSongList2.getName() + testSongList2.getIsPrivate() + testSongList2.getSongs());
         System.out.println(susi.getUserid());
-        System.out.println(testAuthenticationDAO.getToken(susi.getUserid()));
+        System.out.println(testAuthenticationDAO.getToken("susi"));
 
     }
 
-   @Test
+    @Test
     void postSongListExpectCREATED201() throws Exception {
 
         MvcResult result =
-                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization" , tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
+                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization", tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
                         "\t\"isPrivate\": false,\n" +
                         "\t\"name\": \"MaximesPrivate\",\n" +
                         "\t\"songList\": [\n" +
@@ -128,7 +146,7 @@ class SongListControllerTest {
     void postSongListExpectCREATED201NONAME() throws Exception {
 
         MvcResult result =
-                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization" , tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
+                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization", tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
                         "\t\"isPrivate\": false,\n" +
                         "\t\"songList\": [\n" +
                         "\t\t{\n" +
@@ -149,7 +167,7 @@ class SongListControllerTest {
     void postSongListExpectCREATED201NOSETPRIVATE() throws Exception {
 
         MvcResult result =
-                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization" , tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
+                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization", tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
                         "\t\"songList\": [\n" +
                         "\t\t{\n" +
                         "\t\t\t\"id\": 1,\n" +
@@ -173,7 +191,7 @@ class SongListControllerTest {
         System.out.println(jsonString);
         //System.out.println(testSongDAO.getSong(1).getArtist());
         MvcResult result =
-                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization" , tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
+                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization", tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
                         "\t\"isPrivate\": false,\n" +
                         "\t\"name\": \"MaximesPrivate\",\n" +
                         "\t\"songList\": [\n" +
@@ -188,6 +206,7 @@ class SongListControllerTest {
                         "}")))
                         .andExpect(status().isBadRequest()).andReturn();
     }
+
     @Test
     void postSongListExpect400NOAUTH() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -220,7 +239,7 @@ class SongListControllerTest {
         System.out.println(jsonString);
         //System.out.println(testSongDAO.getSong(1).getArtist());
         MvcResult result =
-                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization" , "hahahi").contentType(MediaType.APPLICATION_JSON).content(("{\n" +
+                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization", "hahahi").contentType(MediaType.APPLICATION_JSON).content(("{\n" +
                         "\t\"isPrivate\": false,\n" +
                         "\t\"name\": \"MaximesPrivate\",\n" +
                         "\t\"songList\": [\n" +
@@ -244,7 +263,7 @@ class SongListControllerTest {
         System.out.println(jsonString);
         //System.out.println(testSongDAO.getSong(1).getArtist());
         MvcResult result =
-                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization" , tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("")))
+                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization", tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("")))
                         .andExpect(status().isBadRequest()).andReturn();
     }
 
@@ -254,7 +273,7 @@ class SongListControllerTest {
         String jsonString = mapper.writeValueAsString(testSongList1);
         System.out.println(jsonString);
         MvcResult result =
-                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization" , tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
+                mockMvc.perform(post("/songsWS-PABB/rest/songList").header("Authorization", tokenMap.get("babo")).contentType(MediaType.APPLICATION_JSON).content(("{\n" +
                         "\t\"isPrivate\": false,\n" +
                         "\t\"name\": \"MaximesPrivate\",\n" +
                         "\t\"songList\": [\n" +
@@ -263,26 +282,126 @@ class SongListControllerTest {
                         .andExpect(status().isBadRequest()).andReturn();
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+    @Test
+    void getSongList200ByOwnerID() throws Exception {
+        toSongList(testSongList1);
+        MvcResult result =
+
+                mockMvc.perform(get("/songsWS-PABB/rest/songList?userId=babo").header("Authorization", tokenMap.get("babo")).header("Content-Type", "application/json").header("Accept", "application/json"))
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk()).andReturn();
+
+        String resultString = result.getResponse().getContentAsString();
+        System.out.println(resultString);
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
+    }
+
+
+    @Test
+    void getSongListByOwnerID200XML() throws Exception {
+        toSongList(testSongList1);
+
+        MvcResult result =
+
+                mockMvc.perform(get("/songsWS-PABB/rest/songList?userId=babo").header("Authorization", tokenMap.get("babo")).header("Content-Type", "application/xml").header("Accept", "application/xml"))
+                        .andExpect(content().contentType(MediaType.APPLICATION_XML))
+                        .andExpect(status().isOk()).andReturn();
+
+        String resultString = result.getResponse().getContentAsString();
+        System.out.println(resultString);
+        Assertions.assertTrue(resultString.contains("<SongListCollection><songList><songList><id>1</id><name>HITS de TOM</name><isPrivate>false</isPrivate><ownerId>babo</ownerId><songList><songList>"));
+    }
+
+    @Test
+    void getSongListByOwnerID401WRONGAUTH() throws Exception {
+        toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList?userId=babo").header("Authorization", "dsadsdas"))
+                .andExpect(status().isUnauthorized()).andReturn();
+    }
+
+    @Test
+    void getSongListByOwnerID400NOAUTH() throws Exception {
+        toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList?userId=babo"))
+                .andExpect(status().isBadRequest()).andReturn();
+    }
+
+    @Test
+    void getSongListByOwnerID404PRIVATEWRONGUSER() throws Exception {
+        toSongList(testSongList2);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList?userId=cvcvcv").header("Authorization", tokenMap.get("babo")))
+                .andExpect(status().isNotFound()).andReturn();
+    }
+
+
+    @Test
+    void getSongListByOwnerID404NOSONGLIST() throws Exception {
+        //toSongList(testSongList1);
+        mockMvc.perform(get("/songsWS-PABB/rest/songList?userId=babo").header("Authorization", tokenMap.get("babo")))
+                .andExpect(status().isNotFound()).andReturn();
+    }
+
+    @Test
+    void getSongList200ByOwnerIDNOTOWNER() throws Exception {
+        toSongList(testSongList1);
+        toSongList(testSongList2);
+        toSongList(testSongList3);
+
+        MvcResult result =
+                mockMvc.perform(get("/songsWS-PABB/rest/songList?userId=babo").header("Authorization", tokenMap.get("susi")).header("Content-Type", "application/json").header("Accept", "application/json"))
+                        .andExpect(status().isOk()).andReturn();
+
+        String resultString = result.getResponse().getContentAsString();
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
+        Assertions.assertFalse(resultString.contains("\"isPrivate\":true"));
+
+        /*ObjectMapper mapper = new ObjectMapper();
+        //SongListCollection songListCollection = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<SongListCollection>() {});
+        SongListCollection songListCollection = mapper.readValue(result.getResponse().getContentAsString(), SongListCollection.class);
+        Assertions.assertEquals(songListCollection.getSongList().size(), 1);
+        Assertions.assertEquals(songListCollection.getSongList().get(0).getOwnerId(), "Tom");
+        Assertions.assertEquals(songListCollection.getSongList().get(1).getName(), "HITS de TOM");*/
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     @Test
     void getSongList200() throws Exception {
         toSongList(testSongList1);
-        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+
+        MvcResult result =
+
+                mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk()).andReturn();
+
+        String resultString = result.getResponse().getContentAsString();
+        System.out.println(resultString);
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
     }
 
-    /*@Test
+    @Test
     void getSongList200XML() throws Exception {
         toSongList(testSongList1);
-        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")).header("Content-Type", "application/xml"))
-                .andExpect(content().contentType(MediaType.APPLICATION_XML))
-                .andExpect(status().isOk()).andReturn();
-    }*/
+        MvcResult result =
+
+                mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")).header("Content-Type", "application/xml").header("Accept", "application/xml"))
+                        .andExpect(content().contentType(MediaType.APPLICATION_XML))
+                        .andExpect(status().isOk()).andReturn();
+
+        String resultString = result.getResponse().getContentAsString();
+        System.out.println(resultString);
+        Assertions.assertTrue(resultString.contains("<SongList><id>1</id><name>HITS de TOM</name><isPrivate>false</isPrivate><ownerId>babo</ownerId>"));
+    }
 
     @Test
     void getSongList401WRONGAUTH() throws Exception {
         toSongList(testSongList1);
-        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , "dsadsdas"))
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", "dsadsdas"))
                 .andExpect(status().isUnauthorized()).andReturn();
     }
 
@@ -296,90 +415,118 @@ class SongListControllerTest {
     @Test
     void getSongList403PRIVATEWRONGUSER() throws Exception {
         toSongList(testSongList2);
-        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")))
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
                 .andExpect(status().isForbidden()).andReturn();
     }
 
     @Test
     void getSongList404WRONGID() throws Exception {
         toSongList(testSongList1);
-        mockMvc.perform(get("/songsWS-PABB/rest/songList/2").header("Authorization" , tokenMap.get("babo")))
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/2").header("Authorization", tokenMap.get("babo")))
                 .andExpect(status().isNotFound()).andReturn();
     }
 
     @Test
     void getSongList404NOSONGLIST() throws Exception {
         //toSongList(testSongList1);
-        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization" , tokenMap.get("babo")))
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
+                .andExpect(status().isNotFound()).andReturn();
+    }
+
+
+    @Test
+    void getSongList200NOTOWNER() throws Exception {
+        toSongList(testSongList1);
+        //toSongList(testSongList2);
+        //toSongList(testSongList3);
+
+        MvcResult result =
+                mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("susi")).header("Content-Type", "application/json").header("Accept", "application/json"))
+                        .andExpect(status().isOk()).andReturn();
+
+        String resultString = result.getResponse().getContentAsString();
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
+        Assertions.assertFalse(resultString.contains("\"isPrivate\":true"));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+    @Test
+    void deleteSongListEXPECT200() throws Exception {
+        toSongList(testSongList1);
+        MvcResult result =
+                mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")).header("Content-Type", "application/json").header("Accept", "application/json"))
+                        .andExpect(status().isOk()).andReturn();
+        String resultString = result.getResponse().getContentAsString();
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
+        Assertions.assertFalse(resultString.contains("\"isPrivate\":true"));
+
+        mockMvc.perform(delete("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
+                .andExpect(status().isNoContent()).andReturn();
+
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
                 .andExpect(status().isNotFound()).andReturn();
     }
 
     @Test
-    void getSongListByOwnerID() {
+    void deleteSongListEXPECT403WRONGUSER() throws Exception {
+        toSongList(testSongList1);
+        MvcResult result =
+                mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")).header("Content-Type", "application/json").header("Accept", "application/json"))
+                        .andExpect(status().isOk()).andReturn();
+        String resultString = result.getResponse().getContentAsString();
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
+        Assertions.assertFalse(resultString.contains("\"isPrivate\":true"));
+
+        mockMvc.perform(delete("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("susi")))
+                .andExpect(status().isForbidden()).andReturn();
+
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
+                .andExpect(status().isOk()).andReturn();
     }
 
     @Test
-    void deleteSongList() {
+    void deleteSongListEXPECT401WRONGTOKEN() throws Exception {
+        toSongList(testSongList1);
+        MvcResult result =
+                mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")).header("Content-Type", "application/json").header("Accept", "application/json"))
+                        .andExpect(status().isOk()).andReturn();
+        String resultString = result.getResponse().getContentAsString();
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
+        Assertions.assertFalse(resultString.contains("\"isPrivate\":true"));
+
+        mockMvc.perform(delete("/songsWS-PABB/rest/songList/1").header("Authorization", "dsadsdas"))
+                .andExpect(status().isUnauthorized()).andReturn();
+
+        mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
+                .andExpect(status().isOk()).andReturn();
     }
+
+    @Test
+    void deleteSongListEXPECT404WRONGSONGID() throws Exception {
+        toSongList(testSongList1);
+        MvcResult result =
+                mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")).header("Content-Type", "application/json").header("Accept", "application/json"))
+                        .andExpect(status().isOk()).andReturn();
+        String resultString = result.getResponse().getContentAsString();
+        Assertions.assertTrue(resultString.contains("{\"id\":1,\"name\":\"HITS de TOM\",\"isPrivate\":false,\"ownerId\":\"babo\""));
+        Assertions.assertFalse(resultString.contains("\"isPrivate\":true"));
+
+        mockMvc.perform(delete("/songsWS-PABB/rest/songList/2").header("Authorization", tokenMap.get("babo")))
+                .andExpect(status().isNotFound()).andReturn();
+
+        //mockMvc.perform(get("/songsWS-PABB/rest/songList/1").header("Authorization", tokenMap.get("babo")))
+          //      .andExpect(status().isOk()).andReturn();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+
 
     private void toSongList(SongList songList) {
         testSongListDAO.addSongList(songList);
     }
-    /*
 
-        private MockMvc mockMvc;
-    private MockMvc mockMvcUser;
-
-    @Autowired
-    private ISongListDAO songListDAO;
-
-    @Autowired
-    private IAuthenticationDAO authentication;
-
-    @Autowired
-    private IUserDAO userDAO;
-
-    @BeforeEach
-    public void setupMockMvc() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new SongListController()).build();
-        mockMvcUser = MockMvcBuilders.standaloneSetup(new UserController()).build();
-
-    }
-    //METHODE//
-        String SongListToSave = "{\n" +
-                "\t\"isPrivate\": false,\n" +
-                "\t\"name\": \"MaximesPrivate\",\n" +
-                "\t\"songList\": [\n" +
-                "\t\t{\n" +
-                "\t\t\t\"id\": 3,\n" +
-                "\t\t\t\"title\": \"Muskrat Love\",\n" +
-                "\t\t\t\"artist\": \"Captain and Tennille\",\n" +
-                "\t\t\t\"label\": \"A&M\",\n" +
-                "\t\t\t\"released\": 1976\n" +
-                "\t\t}\n" +
-                "\t]\n" +
-                "}";
-
-        String UserLogin = "{\"userid\":\"mmuster\","
-                + "\"password\":\"pass1234\"}";
-
-        mockMvcUser.perform(MockMvcRequestBuilders.post("/auth")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(UserLogin))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/songList").header("Authorization",authentication.getToken("mmuster"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(SongListToSave))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("location", containsString("/rest/songList")));
-
-        List<SongList> savedSongList = songListDAO.getSongList("mmuster");
-        assertTrue(savedSongList.size() == 1);
-        SongList songList = savedSongList.get(0);
-        assertTrue(songList.getUser().getUserid().equals("mmuster"));
-        assertTrue(songList.getPrivate() == false);
-        assertTrue(songList.getName().equals("MaximesPrivate"));
-        assertTrue(songList.getId() == 0);
-     */
 }

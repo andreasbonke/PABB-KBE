@@ -9,6 +9,13 @@ import java.io.Serializable;
 @Table(name = "users")
 public class User implements Serializable {
 
+    public User(String userid, String password, String firstname, String lastname) {
+        this.userid = userid;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
     @Id
     @Column(name = "userid", nullable = false)
     private String userid;

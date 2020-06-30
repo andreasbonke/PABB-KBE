@@ -6,6 +6,7 @@ import htwb.ai.PABB.dao.ISongDAO;
 import htwb.ai.PABB.dao.ISongListDAO;
 import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
+import htwb.ai.PABB.model.SongListCollection;
 import htwb.ai.PABB.model.User;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -130,15 +131,20 @@ public class SongListController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = {"application/json", "application/xml"})
-    public ResponseEntity<List<SongList>> getSongListByOwnerID(@RequestHeader("Authorization") String token, @RequestParam("userId") String userId) throws IOException {
+    public ResponseEntity<SongListCollection> getSongListByOwnerID(@RequestHeader("Authorization") String token, @RequestParam("userId") String userId) throws IOException {
 
         if (token != null) {
             if (authentication.authenticate(token)) {
                 User tmpuser = authentication.getUser(token);
                 List<SongList> songs = songListDAO.getSongList(userId);
+                if (songs.isEmpty()) {
+                    return new ResponseEntity<SongListCollection>(HttpStatus.NOT_FOUND);
+                }
                 HttpHeaders responseHeaders = new HttpHeaders();
+                SongListCollection songListCollection = new SongListCollection();
+                songListCollection.setSongList(songs);
                 if (tmpuser.getUserid().equals(userId)) {
-                    return new ResponseEntity<List<SongList>>(songs, responseHeaders, HttpStatus.OK);
+                    return new ResponseEntity<SongListCollection>(songListCollection, responseHeaders, HttpStatus.OK);
                 } else {
                     List<SongList> tmpsongs = new ArrayList<SongList>();
                     for (int i = 0; i < songs.size(); i++) {
@@ -146,15 +152,16 @@ public class SongListController {
                             tmpsongs.add(songs.get(i));
                         }
                     }
-                    return new ResponseEntity<List<SongList>>(tmpsongs, responseHeaders, HttpStatus.OK);
+                    songListCollection.setSongList(tmpsongs);
+                    return new ResponseEntity<SongListCollection>(songListCollection, responseHeaders, HttpStatus.OK);
                 }
             } else {
                 HttpHeaders responseHeaders = new HttpHeaders();
-                return new ResponseEntity<List<SongList>>(responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<SongListCollection>(responseHeaders, HttpStatus.UNAUTHORIZED);
             }
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
-            return new ResponseEntity<List<SongList>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<SongListCollection>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -175,8 +182,11 @@ public class SongListController {
                     } else {
                         return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
                     }
+                } else {
+                    return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
                 }
-
+            } else {
+                return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
             }
         }
         return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);

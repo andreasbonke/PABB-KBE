@@ -13,11 +13,11 @@ public class TestUserDAO implements IUserDAO {
 
     public TestUserDAO() {
 
-        User tom = new User();
-        tom.setUserid("babo");
-        tom.setFirstname("tom");
-        tom.setLastname("tomi");
-        tom.setPassword("geheim");
+        User tom = new User("babo","geheim","tom","tomi");
+      //  tom.setUserid("babo");
+      //  tom.setFirstname("tom");
+      //  tom.setLastname("tomi");
+      //  tom.setPassword("geheim");
 
 
         myUsers.put(tom.getUserid(), tom);
