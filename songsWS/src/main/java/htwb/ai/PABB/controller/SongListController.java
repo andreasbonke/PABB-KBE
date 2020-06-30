@@ -49,7 +49,7 @@ public class SongListController {
 
                 Set<Song> songs = songList.getSongs();
 
-                if (songs != null) {
+                if (songs != null && !songs.isEmpty()) {
                     HttpHeaders responseHeaders = new HttpHeaders();
 
                     for (Song song : songs) {
@@ -88,12 +88,10 @@ public class SongListController {
                     return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
                 }
             } else {
-                String json = new ObjectMapper().writeValueAsString("1");
-                return new ResponseEntity<String>(json,HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
             }
         } else {
-            String json = new ObjectMapper().writeValueAsString("2");
-            return new ResponseEntity<String>(json,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -136,7 +134,7 @@ public class SongListController {
                 List<SongList> songs = songListDAO.getSongList(userId);
                 HttpHeaders responseHeaders = new HttpHeaders();
                 if (tmpuser.getUserid().equals(userId)) {
-                    return new ResponseEntity<List<SongList>>(songs, responseHeaders, HttpStatus.ACCEPTED);
+                    return new ResponseEntity<List<SongList>>(songs, responseHeaders, HttpStatus.OK);
                 } else {
                     List<SongList> tmpsongs = new ArrayList<SongList>();
                     for (int i = 0; i < songs.size(); i++) {
@@ -144,7 +142,7 @@ public class SongListController {
                             tmpsongs.add(songs.get(i));
                         }
                     }
-                    return new ResponseEntity<List<SongList>>(tmpsongs, responseHeaders, HttpStatus.ACCEPTED);
+                    return new ResponseEntity<List<SongList>>(tmpsongs, responseHeaders, HttpStatus.OK);
                 }
             } else {
                 HttpHeaders responseHeaders = new HttpHeaders();

@@ -8,9 +8,12 @@ import java.util.List;
 public class TestSongListDAO implements ISongListDAO {
 
     private List<SongList> mySongLists = new ArrayList<>();
+    private int counter = 0;
 
     @Override
     public void addSongList(SongList songList) {
+        counter++;
+        songList.setId(counter);
         mySongLists.add(songList);
     }
 
