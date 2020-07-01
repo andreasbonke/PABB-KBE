@@ -8,12 +8,15 @@ import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
 import htwb.ai.PABB.model.User;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 
@@ -75,22 +78,21 @@ public class SongListDAOTest {
         testSongList1.setName("HITS de TOM");
         testSongList1.setSongs(songs);
 
-        // testSongList3.setId(3);
-        testSongList3.setIsPrivate(true);
-        testSongList3.setOwnerId(tom);
-        testSongList3.setName("PRIVATE HITS de TOM");
-        testSongList3.setSongs(songs3);
-
         //testSongList2.setId(2);
-        testSongList2.setIsPrivate(true);
-        testSongList2.setOwnerId(susi);
+        testSongList2.setIsPrivate(false);
+        testSongList2.setOwnerId(tom);
         testSongList2.setName("HITS de Susi");
         testSongList2.setSongs(songs2);
+
+        // testSongList3.setId(3);
+        testSongList3.setIsPrivate(true);
+        testSongList3.setOwnerId(susi);
+        testSongList3.setName("PRIVATE HITS de TOM");
+        testSongList3.setSongs(songs3);
 
         songDAO = new DBSongDAO(ENTITY_MANAGER_FACTORY);
         userDAO = new DBUserDAO(ENTITY_MANAGER_FACTORY);
         songListDAO = new SongListDAO(ENTITY_MANAGER_FACTORY);
-
 
         songDAO.addSong(song1);
         songDAO.addSong(song2);
@@ -113,26 +115,79 @@ public class SongListDAOTest {
     }
 
     @Test
-    void getSongList() {
+    void getSongListBYIDWITH1SongListSHOULDWORK() {
+
         songListDAO.addSongList(testSongList1);
         SongList songList = songListDAO.getSongList(1);
-        Set<Song> songs = songList.getSongs();
+        Set<Song> tmpsongs = songList.getSongs();
 
         Assertions.assertEquals(false, songList.getIsPrivate());
         Assertions.assertEquals("babo", songList.getOwnerId());
         Assertions.assertEquals("HITS de TOM", songList.getName());
 
-        Assertions.assertEquals(2, songs.size());
+        Assertions.assertEquals(songs.size(), tmpsongs.size());
 
+        boolean isSongInList = false;
+        for (Song a : tmpsongs) {
+            for (Song b : songs) {
+                if (a.getArtist().equals(b.getArtist()))
+                    isSongInList = true;
+                    break;
+            }
+        }
+        Assertions.assertTrue(isSongInList);
     }
 
     @Test
-    void testGetSongList() {
+    void testGetSongListBYOWNERIDWITH1SongListSHOULDWORK() {
+        songListDAO.addSongList(testSongList1);
+        List<SongList> songListList = songListDAO.getSongList("babo");
+        Assertions.assertEquals(1, songListList.size());
+        SongList songList = songListList.get(0);
+
+        Set<Song> tmpsongs = songList.getSongs();
+
+        Assertions.assertEquals(false, songList.getIsPrivate());
+        Assertions.assertEquals("babo", songList.getOwnerId());
+        Assertions.assertEquals("HITS de TOM", songList.getName());
+
+        Assertions.assertEquals(songs.size(), tmpsongs.size());
+
+        boolean isSongInList = false;
+        for (Song a : tmpsongs) {
+            for (Song b : songs) {
+                if (a.getArtist().equals(b.getArtist()))
+                    isSongInList = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(isSongInList);
     }
 
     @Test
-    void deleteSong() {
-    }
+    void deleteSongSHOULDWORK() {
+        songListDAO.addSongList(testSongList1);
+        SongList songList = songListDAO.getSongList(1);
+        Set<Song> tmpsongs = songList.getSongs();
 
+        Assertions.assertEquals(false, songList.getIsPrivate());
+        Assertions.assertEquals("babo", songList.getOwnerId());
+        Assertions.assertEquals("HITS de TOM", songList.getName());
+
+        Assertions.assertEquals(songs.size(), tmpsongs.size());
+
+        boolean isSongInList = false;
+        for (Song a : tmpsongs) {
+            for (Song b : songs) {
+                if (a.getArtist().equals(b.getArtist()))
+                    isSongInList = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(isSongInList);
+
+        songListDAO.deleteSong(1);
+        Assertions.assertNull( songListDAO.getSongList(1));
+    }
 
 }
