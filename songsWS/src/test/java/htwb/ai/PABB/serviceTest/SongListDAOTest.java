@@ -66,6 +66,7 @@ public class SongListDAOTest {
         songs2.add(song1);
 
         songs3.add(song3);
+        songs3.add(song2);
 
         //  testSongList1.setId(1);
         testSongList1.setIsPrivate(false);
@@ -90,7 +91,7 @@ public class SongListDAOTest {
 
         songDAO.addSong(song1);
         songDAO.addSong(song2);
-        songDAO.addSong(song3);
+        //songDAO.addSong(song3);
 
 //        songListDAO.addSongList(testSongList1);
 
@@ -125,7 +126,7 @@ public class SongListDAOTest {
     @Test
     void getSongListBYIDWITH1SongListSHOULDWORK() {
         songListDAO = new SongListDAO(ENTITY_MANAGER_FACTORY);
-        songListDAO.addSongList(testSongList1);
+        //songListDAO.addSongList(testSongList1);
         SongList songList = songListDAO.getSongList(1);
         Set<Song> tmpsongs = songList.getSongs();
 
@@ -150,7 +151,7 @@ public class SongListDAOTest {
     @Test
     void testGetSongListBYOWNERIDWITH1SongListSHOULDWORK() {
         songListDAO = new SongListDAO(ENTITY_MANAGER_FACTORY);
-        songListDAO.addSongList(testSongList1);
+      //  songListDAO.addSongList(testSongList1);
         List<SongList> songListList = songListDAO.getSongList("babo");
         Assertions.assertEquals(1, songListList.size());
         SongList songList = songListList.get(0);
@@ -178,34 +179,13 @@ public class SongListDAOTest {
     @Test
     void getSongListBYIDWITH1SongListWRONGID() {
         songListDAO = new SongListDAO(ENTITY_MANAGER_FACTORY);
-        songListDAO.addSongList(testSongList1);
         Assertions.assertNull(songListDAO.getSongList(2));
-
-        //SongList songList = songListDAO.getSongList(1);
-        //Set<Song> tmpsongs = songList.getSongs();
-
-       /* Assertions.assertEquals(false, songList.getIsPrivate());
-        Assertions.assertEquals("babo", songList.getOwnerId());
-        Assertions.assertEquals("HITS de TOM", songList.getName());
-
-        Assertions.assertEquals(songs.size(), tmpsongs.size());
-
-        boolean isSongInList = false;
-        for (Song a : tmpsongs) {
-            for (Song b : songs) {
-                if (a.getArtist().equals(b.getArtist()))
-                    isSongInList = true;
-                break;
-            }
-        }
-        Assertions.assertTrue(isSongInList);*/
     }
 
     @Order(5)
     @Test
     void testGetSongListBYOWNERIDWITH1SongListWRONDUSER() {
         songListDAO = new SongListDAO(ENTITY_MANAGER_FACTORY);
-        songListDAO.addSongList(testSongList1);
         List<SongList> songListList = songListDAO.getSongList("dsaads");
         List<SongList> songs = new ArrayList<>();
         Assertions.assertEquals(songs, songListList);
@@ -215,7 +195,7 @@ public class SongListDAOTest {
     @Test
     void deleteSongSHOULDWORK() {
         songListDAO = new SongListDAO(ENTITY_MANAGER_FACTORY);
-        songListDAO.addSongList(testSongList1);
+       // songListDAO.addSongList(testSongList1);
         SongList songList = songListDAO.getSongList(1);
         Set<Song> tmpsongs = songList.getSongs();
 
@@ -243,7 +223,7 @@ public class SongListDAOTest {
     @Test
     void deleteSongWRONGID() {
         songListDAO = new SongListDAO(ENTITY_MANAGER_FACTORY);
-        songListDAO.addSongList(testSongList1);
+       // songListDAO.addSongList(testSongList1);
         SongList songList = songListDAO.getSongList(1);
         Set<Song> tmpsongs = songList.getSongs();
 
