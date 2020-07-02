@@ -35,6 +35,9 @@ public class SongListDAOTest {
 
     @BeforeEach
     public void setup() {
+        songDAO = new DBSongDAO(ENTITY_MANAGER_FACTORY);
+        userDAO = new DBUserDAO(ENTITY_MANAGER_FACTORY);
+
         Song song1 = new Song();
         //song1.setId(1);
         song1.setArtist("Starship");
@@ -59,8 +62,10 @@ public class SongListDAOTest {
         songs.add(song1);
         songs.add(song2);
 
-        tom = new User("babo", "geheim", "tom", "tomi");
-        susi = new User("susi", "pass", "susi", "sorglos");
+       // tom = new User("babo", "geheim", "tom", "tomi");
+       // susi = new User("susi", "pass", "susi", "sorglos");
+        tom = userDAO.getUserByUserId("babo");
+        susi = userDAO.getUserByUserId("susi");
 
 
         songs2.add(song1);
@@ -85,9 +90,6 @@ public class SongListDAOTest {
         testSongList3.setOwnerId(susi);
         testSongList3.setName("PRIVATE HITS de TOM");
         testSongList3.setSongs(songs3);
-
-        songDAO = new DBSongDAO(ENTITY_MANAGER_FACTORY);
-        userDAO = new DBUserDAO(ENTITY_MANAGER_FACTORY);
 
         songDAO.addSong(song1);
         songDAO.addSong(song2);

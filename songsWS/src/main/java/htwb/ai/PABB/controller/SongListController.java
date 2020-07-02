@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/songsWS-PABB/rest/songList")
+@RequestMapping(value = "/songsWS-PABB/rest/songLists")
 public class SongListController {
 
     private ISongListDAO songListDAO;
@@ -71,7 +71,7 @@ public class SongListController {
                     songList.setOwnerId(authentication.getUser(token));
                     songListDAO.addSongList(songList);
                     if (songList.getId() != 0) {
-                        String uriString = "http://localhost:8080/songsWS-PABB/rest/songlist/" + songList.getId();
+                        String uriString = "http://localhost:8080/songsWS-PABB/rest/songlists/" + songList.getId();
                         URI location = null;
                         try {
                             location = new URI(uriString);
@@ -110,7 +110,7 @@ public class SongListController {
                     } else {
                         if (!authentication.getUser(token).getUserid().equals(songList.getOwnerId())) {
                             //&& songList.getPrivate() == false) || (authentication.getUser(token) == songList.getUser())) {
-                            if (songList.getIsPrivate() == true) {
+                            if (songList.getIsPrivate() == null ||  songList.getIsPrivate() == true) {
                                 return new ResponseEntity<SongList>(HttpStatus.FORBIDDEN);
                             }
                         }
@@ -148,7 +148,7 @@ public class SongListController {
                 } else {
                     List<SongList> tmpsongs = new ArrayList<SongList>();
                     for (int i = 0; i < songs.size(); i++) {
-                        if (songs.get(i).getIsPrivate() == false) {
+                        if (songs.get(i).getIsPrivate() != null || songs.get(i).getIsPrivate() == false) {
                             tmpsongs.add(songs.get(i));
                         }
                     }
