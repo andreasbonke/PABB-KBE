@@ -148,7 +148,7 @@ public class SongListController {
                 } else {
                     List<SongList> tmpsongs = new ArrayList<SongList>();
                     for (int i = 0; i < songs.size(); i++) {
-                        if (songs.get(i).getIsPrivate() != null || songs.get(i).getIsPrivate() == false) {
+                        if (songs.get(i).getIsPrivate() != null && songs.get(i).getIsPrivate() == false) {
                             tmpsongs.add(songs.get(i));
                         }
                     }
