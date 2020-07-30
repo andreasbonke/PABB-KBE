@@ -192,4 +192,26 @@ public class SongListController {
         return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    public ResponseEntity<String> updateSongList(@PathVariable("id") int id, @RequestBody SongList songList, @RequestHeader("Authorization") String token) throws IOException {
+        if (token != null) {
+            if (authentication.authenticate(token) && authentication.getUser(token) != null) {
+                if (songList.getSongs() == null){
+                    return new ResponseEntity<>("Invalid Songs", new HttpHeaders(), HttpStatus.NOT_FOUND);
+                }
+                boolean updated = songListDAO.updateSongList(songList, id);
+                if (updated) {
+                    return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+                } else {
+                    return new ResponseEntity<String>("Invalid SongList", new HttpHeaders(), HttpStatus.NOT_FOUND);
+                }
+            } else {
+                return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+            }
+        } else {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

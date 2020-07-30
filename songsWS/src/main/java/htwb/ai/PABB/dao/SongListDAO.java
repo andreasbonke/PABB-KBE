@@ -1,13 +1,10 @@
 package htwb.ai.PABB.dao;
 
 
-import javax.persistence.*;
-
-import htwb.ai.PABB.model.Song;
 import htwb.ai.PABB.model.SongList;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +103,38 @@ public class SongListDAO implements ISongListDAO {
             entityManager.close();
             return true;
         } catch (Exception ex) {
+            if (entityTransaction != null) {
+                entityTransaction.rollback();
+            }
+            ex.printStackTrace();
+            entityManager.close();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateSongList(SongList replaceSongList, int id) {
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction entityTransaction = null;
+
+        SongList actSongList = null;
+
+        try {
+            entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+
+            actSongList = entityManager.find(SongList.class, id);
+            actSongList.setName(replaceSongList.getName());
+            actSongList.setIsPrivate(replaceSongList.getIsPrivate());
+            actSongList.setSongs(replaceSongList.getSongs());
+            actSongList.setId(replaceSongList.getId());
+
+            entityManager.persist(actSongList);
+            entityTransaction.commit();
+            entityManager.close();
+            return true;
+
+        } catch (Exception ex){
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }

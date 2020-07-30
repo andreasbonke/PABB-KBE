@@ -49,4 +49,9 @@ public class TestSongListDAO implements ISongListDAO {
         }
         return false;
     }
+
+    @Override
+    public boolean updateSongList(SongList songList, int id) {
+        return false;
+    }
 }
