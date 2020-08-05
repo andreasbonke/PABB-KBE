@@ -11,6 +11,7 @@
 	<groupId>htwb.ai.PABB</groupId>
 	<artifactId>songsMS</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>songsMS</name>
 	<description>Rebuild songsWS as Microservice</description>
 

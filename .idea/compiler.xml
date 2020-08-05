@@ -10,7 +10,6 @@
         <module name="songsWS" />
         <module name="songlist-microservice" />
         <module name="userauth-microservice" />
-        <module name="songsMS" />
         <module name="songsrelated-microservice" />
         <module name="apigateway" />
         <module name="songsservlet" />
