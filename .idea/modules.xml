@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/modules.iml" filepath="$PROJECT_DIR$/modules.iml" />
       <module fileurl="file://$PROJECT_DIR$/runmerunner/runmerunner.iml" filepath="$PROJECT_DIR$/runmerunner/runmerunner.iml" />
-      <module fileurl="file://$PROJECT_DIR$/songsMS/songsMS.iml" filepath="$PROJECT_DIR$/songsMS/songsMS.iml" />
       <module fileurl="file://$PROJECT_DIR$/songsWS/songsWS.iml" filepath="$PROJECT_DIR$/songsWS/songsWS.iml" />
       <module fileurl="file://$PROJECT_DIR$/songsservlet/songsservlet.iml" filepath="$PROJECT_DIR$/songsservlet/songsservlet.iml" />
     </modules>

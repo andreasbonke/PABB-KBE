@@ -8,21 +8,18 @@
         <outputRelativeToContentRoot value="true" />
         <module name="songsWS" />
         <module name="runmerunner" />
-        <module name="songsMS" />
         <module name="songsservlet" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="modules" target="11" />
       <module name="runmerunner" target="8" />
-      <module name="songsMS" target="11" />
       <module name="songsservlet" target="11" />
       <module name="songsWS" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="songsMS" options="" />
       <module name="songsWS" options="-parameters" />
     </option>
   </component>
