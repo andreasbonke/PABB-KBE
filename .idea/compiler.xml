@@ -6,21 +6,45 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="discoveryserver" />
         <module name="songsWS" />
-        <module name="runmerunner" />
+        <module name="songlist-microservice" />
+        <module name="userauth-microservice" />
+        <module name="songsMS" />
+        <module name="songsrelated-microservice" />
+        <module name="apigateway" />
+        <module name="songs-microservice" />
         <module name="songsservlet" />
+        <module name="runmerunner" />
+        <module name="configserver" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="apigateway" target="11" />
+      <module name="configserver" target="11" />
+      <module name="discoveryserver" target="11" />
       <module name="modules" target="11" />
       <module name="runmerunner" target="8" />
+      <module name="songlist-microservice" target="11" />
+      <module name="songs-microservice" target="11" />
+      <module name="songsMS" target="11" />
+      <module name="songsrelated-microservice" target="11" />
       <module name="songsservlet" target="11" />
       <module name="songsWS" target="1.8" />
+      <module name="userauth-microservice" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="apigateway" options="-parameters" />
+      <module name="configserver" options="-parameters" />
+      <module name="discoveryserver" options="-parameters" />
+      <module name="songlist-microservice" options="-parameters" />
+      <module name="songs-microservice" options="-parameters" />
+      <module name="songsMS" options="-parameters" />
       <module name="songsWS" options="-parameters" />
+      <module name="songsrelated-microservice" options="-parameters" />
+      <module name="userauth-microservice" options="-parameters" />
     </option>
   </component>
 </project>

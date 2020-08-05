@@ -2,6 +2,16 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/runmerunner/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/apigateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/configserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/configserver/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/discoveryserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/songlist-microservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/songs-microservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/songsrelated-microservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/userauth-microservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/songsWS/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/songsWS/src/main/resources" charset="UTF-8" />
   </component>
