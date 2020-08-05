@@ -13,7 +13,6 @@
         <module name="songsMS" />
         <module name="songsrelated-microservice" />
         <module name="apigateway" />
-        <module name="songs-microservice" />
         <module name="songsservlet" />
         <module name="runmerunner" />
         <module name="configserver" />

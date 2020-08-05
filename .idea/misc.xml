@@ -13,7 +13,6 @@
         <option value="$PROJECT_DIR$/songsMS/pom.xml" />
         <option value="$PROJECT_DIR$/songsMS/apigateway/pom.xml" />
         <option value="$PROJECT_DIR$/songsMS/userauth-microservice/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/songs-microservice/pom.xml" />
         <option value="$PROJECT_DIR$/songsMS/songlist-microservice/pom.xml" />
         <option value="$PROJECT_DIR$/songsMS/songsrelated-microservice/pom.xml" />
       </list>

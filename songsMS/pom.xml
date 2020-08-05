@@ -19,7 +19,6 @@
 		<module>discoveryserver</module>
 		<module>apigateway</module>
 		<module>userauth-microservice</module>
-		<module>songs-microservice</module>
 		<module>songlist-microservice</module>
 		<module>songsrelated-microservice</module>
 	</modules>
