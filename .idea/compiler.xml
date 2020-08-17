@@ -10,11 +10,11 @@
         <module name="songsWS" />
         <module name="songlist-microservice" />
         <module name="userauth-microservice" />
-        <module name="songsrelated-microservice" />
         <module name="apigateway" />
         <module name="songsservlet" />
-        <module name="runmerunner" />
+        <module name="songsrelated-microservice" />
         <module name="configserver" />
+        <module name="runmerunner" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
