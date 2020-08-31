@@ -8,13 +8,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/discoveryserver/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/configserver/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/apigateway/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/userauth-microservice/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/songlist-microservice/pom.xml" />
-        <option value="$PROJECT_DIR$/songsMS/songsrelated-microservice/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
