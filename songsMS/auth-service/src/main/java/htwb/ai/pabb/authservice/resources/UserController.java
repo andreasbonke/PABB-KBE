@@ -1,4 +1,4 @@
-package htwb.ai.pabb.authservice.ressources;
+package htwb.ai.pabb.authservice.resources;
 
 import htwb.ai.pabb.authservice.models.User;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/songsMS/songsMS.iml" filepath="$PROJECT_DIR$/songsMS/songsMS.iml" />
       <module fileurl="file://$PROJECT_DIR$/songsWS/songsWS.iml" filepath="$PROJECT_DIR$/songsWS/songsWS.iml" />
       <module fileurl="file://$PROJECT_DIR$/songsservlet/songsservlet.iml" filepath="$PROJECT_DIR$/songsservlet/songsservlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/songsMS/spring-cloud-config-server/spring-cloud-config-server.iml" filepath="$PROJECT_DIR$/songsMS/spring-cloud-config-server/spring-cloud-config-server.iml" />
     </modules>
   </component>
 </project>

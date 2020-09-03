@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/songsMS/song-related-service/pom.xml" />
         <option value="$PROJECT_DIR$/songsMS/discovery-server/pom.xml" />
         <option value="$PROJECT_DIR$/songsMS/git-version-service/pom.xml" />
+        <option value="$PROJECT_DIR$/songsMS/spring-cloud-config-server/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

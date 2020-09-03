@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/songsMS/git-version-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/songsMS/song-related-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/songsMS/song-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/songsMS/spring-cloud-config-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/songsWS/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/songsWS/src/main/resources" charset="UTF-8" />
   </component>
