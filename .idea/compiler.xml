@@ -8,19 +8,38 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="songsWS" />
+        <module name="song-related-service" />
+        <module name="song-service" />
+        <module name="songsMS" />
+        <module name="git-version-service" />
+        <module name="discovery-server" />
         <module name="songsservlet" />
         <module name="runmerunner" />
+        <module name="auth-service" />
+        <module name="untitled" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="auth-service" target="11" />
+      <module name="discovery-server" target="11" />
+      <module name="git-version-service" target="11" />
       <module name="modules" target="11" />
       <module name="runmerunner" target="8" />
+      <module name="song-related-service" target="11" />
+      <module name="song-service" target="11" />
+      <module name="songsMS" target="11" />
       <module name="songsservlet" target="11" />
       <module name="songsWS" target="1.8" />
+      <module name="untitled" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="auth-service" options="-parameters" />
+      <module name="discovery-server" options="-parameters" />
+      <module name="git-version-service" options="-parameters" />
+      <module name="song-related-service" options="-parameters" />
+      <module name="song-service" options="-parameters" />
       <module name="songsWS" options="-parameters" />
     </option>
   </component>

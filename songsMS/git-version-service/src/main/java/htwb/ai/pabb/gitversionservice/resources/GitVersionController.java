@@ -1,4 +1,4 @@
-package htwb.ai.PABB.controller;
+package htwb.ai.pabb.gitversionservice.resources;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.MediaType;
@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping(value = "/songsWS-PABB/rest/version")
+@RequestMapping("/version")
 public class GitVersionController {
 
     private String gitVersion;

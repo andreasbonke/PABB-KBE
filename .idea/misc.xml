@@ -8,11 +8,17 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/songsMS/auth-service/pom.xml" />
+        <option value="$PROJECT_DIR$/songsMS/song-service/pom.xml" />
+        <option value="$PROJECT_DIR$/songsMS/song-related-service/pom.xml" />
+        <option value="$PROJECT_DIR$/songsMS/discovery-server/pom.xml" />
+        <option value="$PROJECT_DIR$/songsMS/git-version-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/songsMS/pom.xml" />
+        <option value="$PROJECT_DIR$/untitled/pom.xml" />
       </set>
     </option>
   </component>
