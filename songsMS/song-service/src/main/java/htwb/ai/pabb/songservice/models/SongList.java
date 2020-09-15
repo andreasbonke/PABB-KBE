@@ -1,26 +1,33 @@
 package htwb.ai.pabb.songservice.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
-public class SongList {
+@Entity
+public class SongList implements Serializable {
 
+    @Id @GeneratedValue
     private int id;
-    private User user;
+    private String ownerId;
     private String name;
     private Boolean isPrivate;
-    private Set<Song> songs = new HashSet<Song>();
+
+    //TODO: M:N Beziehung mit Songs erstellen
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "songlist_songid", joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "songlist_id",referencedColumnName = "id"))
+    private List<Song> songs;
 
     public SongList(){
 
     }
 
-    public SongList(int id, User user, String name, Boolean isPrivate, Set<Song> songs) {
+    public SongList(int id, String ownerId, String name, Boolean isPrivate) {
         this.id = id;
-        this.user = user;
+        this.ownerId = ownerId;
         this.name = name;
         this.isPrivate = isPrivate;
-        this.songs = songs;
     }
 
     public int getId() {
@@ -31,12 +38,12 @@ public class SongList {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getName() {
@@ -55,11 +62,27 @@ public class SongList {
         this.isPrivate = isPrivate;
     }
 
-    public Set<Song> getSongs() {
+    public List<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(Set<Song> songs) {
+    public void setSongs(List<Song> songs) {
         this.songs = songs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SongList songList = (SongList) o;
+        return id == songList.id &&
+                Objects.equals(ownerId, songList.ownerId) &&
+                Objects.equals(name, songList.name) &&
+                Objects.equals(isPrivate, songList.isPrivate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ownerId, name, isPrivate);
     }
 }

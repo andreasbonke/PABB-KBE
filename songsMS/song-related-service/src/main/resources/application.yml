@@ -1,2 +1,8 @@
 spring.cloud.config.uri: http://localhost:8888
-spring.application.name: song-related-service
+spring:
+  cloud:
+    config:
+      name: song-related-service
+      discovery:
+        service-id: config
+        enabled: true

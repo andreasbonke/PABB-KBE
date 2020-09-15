@@ -1,50 +1,52 @@
 package htwb.ai.pabb.songservice.resources;
 
+import htwb.ai.pabb.songservice.dao.SongService;
 import htwb.ai.pabb.songservice.models.Song;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/songs")
 public class SongController {
 
-    @RequestMapping(method = RequestMethod.GET, produces = {"application/json", "application/xml"})
-    public ResponseEntity<List<Song>> getAllSongs(){
+    @Autowired
+    private SongService songService;
 
+    @GetMapping(produces = {"application/json", "application/xml"})
+    public ResponseEntity<List<Song>> getAllSongs(){
         HttpHeaders responseHeaders = new HttpHeaders();
 
-        List<Song> songs = Arrays.asList(
-                new Song(1,"Art","Te","RCA","2010"),
-                new Song(2,"Dope","Fass","BGS","2001")
-        );
-
+        List<Song> songs = songService.getAllSongs();
         return new ResponseEntity<List<Song>>(songs, responseHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
     public ResponseEntity<Song> getSong(@PathVariable("id") int id){
         HttpHeaders responseHeaders = new HttpHeaders();
-        Song song = new Song(1,"Art","Te","RCA","2010");
+        Song song = songService.getSong(id);
         return new ResponseEntity<Song>(song, responseHeaders,HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<String> postSong(@RequestBody Song song){
+        songService.addSong(song);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<String> updateSong(@PathVariable("id") int id, @RequestBody Song song) {
+        songService.updateSong(id, song);
         return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteSong(@PathVariable("id") int id) {
+        songService.deleteSong(id);
         return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
     }
 

@@ -1,6 +1,16 @@
 package htwb.ai.pabb.songservice.models;
 
-public class Song {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Objects;
+
+@Entity
+public class Song implements Serializable {
+
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String title;
     private String artist;
@@ -57,5 +67,22 @@ public class Song {
 
     public void setReleased(String released) {
         this.released = released;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return id == song.id &&
+                Objects.equals(title, song.title) &&
+                Objects.equals(artist, song.artist) &&
+                Objects.equals(label, song.label) &&
+                Objects.equals(released, song.released);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, artist, label, released);
     }
 }
