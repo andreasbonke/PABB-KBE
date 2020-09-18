@@ -1,15 +1,35 @@
 package htwb.ai.pabb.songrelatedservice.models;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Component
+@Data
+@Document(collection = "song-related-data")
 public class SongRelatedData {
-    private final MongoTemplate mongoTemplate;
 
-    @Autowired
-    public SongRelatedData(MongoTemplate mongoTemplate){
-        this.mongoTemplate = mongoTemplate;
+    @Id
+    private String id;
+    private String songtext;
+
+    public SongRelatedData(String id, String songtext) {
+        this.id = id;
+        this.songtext = songtext;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSongtext() {
+        return songtext;
+    }
+
+    public void setSongtext(String songtext) {
+        this.songtext = songtext;
     }
 }
