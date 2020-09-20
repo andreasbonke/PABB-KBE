@@ -31,11 +31,23 @@ public class SongListService {
         songListRepository.save(songList);
     }
 
-    public void updateSongList(int id, SongList songList) {
-        songListRepository.save(songList);
+    public boolean updateSongList(int id, SongList songList) {
+        try {
+            songListRepository.save(songList);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void deleteSongLists(int id) {
-        songListRepository.deleteById(id);
+    public boolean deleteSongLists(int id) {
+       try {
+           songListRepository.deleteById(id);
+           return true;
+       } catch (Exception e){
+           e.printStackTrace();
+           return false;
+       }
     }
 }

@@ -1,5 +1,7 @@
 package htwb.ai.pabb.songservice.resources;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import htwb.ai.pabb.songservice.dao.SongService;
 import htwb.ai.pabb.songservice.models.Song;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -29,25 +33,55 @@ public class SongController {
     public ResponseEntity<Song> getSong(@PathVariable("id") int id){
         HttpHeaders responseHeaders = new HttpHeaders();
         Song song = songService.getSong(id);
-        return new ResponseEntity<Song>(song, responseHeaders,HttpStatus.OK);
+        if (song == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(song, responseHeaders,HttpStatus.OK);
+        }
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<String> postSong(@RequestBody Song song){
+    public ResponseEntity<String> postSong(@RequestBody Song song) throws JsonProcessingException {
+        HttpHeaders responseHeaders = new HttpHeaders();
         songService.addSong(song);
-        return new ResponseEntity<String>(HttpStatus.OK);
+        if (song.getId() != 0) {
+            String uriString = "http://localhost:8083/songs/" + song.getId();
+            URI location = null;
+            try {
+                location = new URI(uriString);
+            }catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            responseHeaders.setLocation(location);
+            return new ResponseEntity<String>(responseHeaders, HttpStatus.CREATED);
+        } else {
+            String json = new ObjectMapper().writeValueAsString("Wrong Body");
+            return new ResponseEntity<String>(json, responseHeaders, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<String> updateSong(@PathVariable("id") int id, @RequestBody Song song) {
-        songService.updateSong(id, song);
-        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+
+        if (song.getTitle() == "" || song.getTitle() == null) {
+            return new ResponseEntity<String>("Invalid title", new HttpHeaders(),HttpStatus.NO_CONTENT);
+        }
+        boolean updated = songService.updateSong(id, song);
+        if (updated){
+            return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<String>("Invalid song", new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteSong(@PathVariable("id") int id) {
-        songService.deleteSong(id);
-        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+        boolean deleted = songService.deleteSong(id);
+        if (deleted){
+            return new ResponseEntity<String>(new HttpHeaders(),HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<String>("invalid", HttpStatus.NOT_FOUND);
+        }
     }
-
 }

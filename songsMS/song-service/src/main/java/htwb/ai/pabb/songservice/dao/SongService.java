@@ -28,11 +28,24 @@ public class SongService {
         songRepository.save(song);
     }
 
-    public void updateSong(int id, Song song){
-        songRepository.save(song);
+    public boolean updateSong(int id, Song song){
+        try {
+            songRepository.save(song);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
-    public void deleteSong(int id){
-        songRepository.deleteById(id);
+    public boolean deleteSong(int id){
+        try {
+            songRepository.deleteById(id);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

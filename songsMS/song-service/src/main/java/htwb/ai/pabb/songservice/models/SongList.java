@@ -14,7 +14,6 @@ public class SongList implements Serializable {
     private String name;
     private Boolean isPrivate;
 
-    //TODO: M:N Beziehung mit Songs erstellen
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "songlist_songid", joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "songlist_id",referencedColumnName = "id"))
     private List<Song> songs;

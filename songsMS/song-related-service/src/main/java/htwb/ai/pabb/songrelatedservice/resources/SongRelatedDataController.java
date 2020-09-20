@@ -22,6 +22,11 @@ public class SongRelatedDataController {
     public ResponseEntity<SongRelatedData> getSongInfo(@PathVariable("id") String id){
         HttpHeaders responseHeaders = new HttpHeaders();
         SongRelatedData data = songRelatedDataService.getSongRelatedData(id);
-        return new ResponseEntity<>(data, responseHeaders,HttpStatus.OK);
+        if (data == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            return new ResponseEntity<>(data, responseHeaders,HttpStatus.OK);
+        }
+
     }
 }
