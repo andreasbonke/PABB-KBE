@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SongListService {
@@ -33,10 +34,9 @@ public class SongListService {
     public List<SongList> getSongList(String ownerId) {
         List<SongList> songLists = new ArrayList<>();
         songListRepository.findAll().forEach(songLists::add);
-
-        //TODO: gibt alle zurück, anstatt des Gesuchten
-        songLists.stream().filter(songList -> songList.getOwnerId().equals(ownerId));
-        return songLists;
+        List <SongList> filteredSongList;
+        filteredSongList = songLists.stream().filter(songList -> songList.getOwnerId().equals(ownerId)).collect(Collectors.toList());
+        return filteredSongList;
     }
 
     /**
