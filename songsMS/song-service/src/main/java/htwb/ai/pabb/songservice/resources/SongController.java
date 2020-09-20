@@ -44,8 +44,8 @@ public class SongController {
     public ResponseEntity<Song> getSong(@PathVariable("id") int id) {
         HttpHeaders responseHeaders = new HttpHeaders();
         Song song = songService.getSong(id);
-        if (song.getId() != id) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (song == null) {
+            return new ResponseEntity<>(responseHeaders,HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(song, responseHeaders, HttpStatus.OK);
         }

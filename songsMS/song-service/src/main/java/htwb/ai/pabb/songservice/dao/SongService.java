@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class SongService {
@@ -21,7 +22,13 @@ public class SongService {
      * @return
      */
     public Song getSong(int id) {
-        return songRepository.findById(id).get();
+        try {
+            return songRepository.findById(id).get();
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     /**

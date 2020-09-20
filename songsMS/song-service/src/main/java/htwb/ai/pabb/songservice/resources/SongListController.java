@@ -32,11 +32,11 @@ public class SongListController {
         HttpHeaders responseHeaders = new HttpHeaders();
         if (songListService.getSongList(id) != null) {
             SongList songList = songListService.getSongList(id);
-            if (songList.getId() != id) {
+            if (songList == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 if (songList.getPrivate() == null || songList.getPrivate() == true) {
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<>(responseHeaders,HttpStatus.FORBIDDEN);
                 }
             }
             return new ResponseEntity<>(songList, responseHeaders, HttpStatus.OK);
