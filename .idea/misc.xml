@@ -4,6 +4,9 @@
     <file type="web" url="file://$PROJECT_DIR$/songsservlet" />
     <file type="web" url="file://$PROJECT_DIR$/songsWS" />
   </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/songsMS/JavaDoc" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
