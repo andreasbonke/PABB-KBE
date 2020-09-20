@@ -26,4 +26,12 @@ public class SongRelatedDataService {
         }
 
     }
+
+    /**
+     * Fügt einen neuen Songtext in die Datenbank hinzu
+     * @param songRelatedData
+     */
+    public void addSongRelatedData(SongRelatedData songRelatedData) {
+        relatedServiceRepository.save(songRelatedData);
+    }
 }

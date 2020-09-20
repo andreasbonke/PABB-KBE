@@ -76,7 +76,7 @@ public class SongListController {
         HttpHeaders responseHeaders = new HttpHeaders();
         songListService.addSongList(songList);
         if (songList.getId() != 0) {
-            String uriString = "http://localhost:8083/songLists/" + songList.getId();
+            String uriString = "http://localhost:8082/songLists/" + songList.getId();
             URI location = null;
             try {
                 location = new URI(uriString);

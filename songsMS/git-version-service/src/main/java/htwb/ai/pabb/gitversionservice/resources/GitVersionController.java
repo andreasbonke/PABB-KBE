@@ -27,7 +27,7 @@ public class GitVersionController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getGitProperties() throws IOException {
+    public ResponseEntity<String> getGitProperties() {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(this.gitVersion);
     }
 }

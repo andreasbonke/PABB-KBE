@@ -63,7 +63,7 @@ public class SongController {
         HttpHeaders responseHeaders = new HttpHeaders();
         songService.addSong(song);
         if (song.getId() != 0) {
-            String uriString = "http://localhost:8083/songs/" + song.getId();
+            String uriString = "http://localhost:8082/songs/" + song.getId();
             URI location = null;
             try {
                 location = new URI(uriString);
