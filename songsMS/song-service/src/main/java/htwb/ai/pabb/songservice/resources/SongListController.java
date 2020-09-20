@@ -32,7 +32,7 @@ public class SongListController {
         HttpHeaders responseHeaders = new HttpHeaders();
         if (songListService.getSongList(id) != null) {
             SongList songList = songListService.getSongList(id);
-            if (songList == null) {
+            if (songList.getId() != id) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
                 if (songList.getPrivate() == null || songList.getPrivate() == true) {
