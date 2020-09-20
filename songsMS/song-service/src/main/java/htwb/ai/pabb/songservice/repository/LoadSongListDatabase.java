@@ -15,10 +15,10 @@ public class LoadSongListDatabase {
     @Bean
     CommandLineRunner initSongListDatabase(SongListRepository songListRepository) {
         return args -> {
-            log.info("Preloading " + songListRepository.save(new SongList(1, "mmuster","MusterPrivate",true)));
-            log.info("Preloading " + songListRepository.save(new SongList(2, "mmuster","MusterPublic",false)));
-            log.info("Preloading " + songListRepository.save(new SongList(3, "eschuler","SchulerPrivate",true)));
-            log.info("Preloading " + songListRepository.save(new SongList(4, "eschuler","SchulerPublic",false)));
+            log.info("Preloading " + songListRepository.save(new SongList(1, "mmuster", "MusterPrivate", true)));
+            log.info("Preloading " + songListRepository.save(new SongList(2, "mmuster", "MusterPublic", false)));
+            log.info("Preloading " + songListRepository.save(new SongList(3, "eschuler", "SchulerPrivate", true)));
+            log.info("Preloading " + songListRepository.save(new SongList(4, "eschuler", "SchulerPublic", false)));
         };
     }
 }

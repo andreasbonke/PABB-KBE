@@ -9,13 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService{
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-
-    public User getUserById(String userId){
+    /**
+     * Gibt einen User mit der entsprechenden userId zurück
+     *
+     * @param userId
+     * @return User
+     */
+    public User getUserById(String userId) {
         //return users.stream().filter(user -> user.getUserid().equals(userId)).findFirst().get();
 
         List<User> users = new ArrayList<>();

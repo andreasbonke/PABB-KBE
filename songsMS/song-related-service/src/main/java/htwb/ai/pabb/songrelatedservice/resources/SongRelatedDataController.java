@@ -18,14 +18,20 @@ public class SongRelatedDataController {
     @Autowired
     private SongRelatedDataService songRelatedDataService;
 
-    @GetMapping(value = "/{id}",  produces = {"application/json", "application/xml"})
-    public ResponseEntity<SongRelatedData> getSongInfo(@PathVariable("id") String id){
+    /**
+     * Nimmt GET Anfragen entgegen und gibt Songtexte mit einer entsprechenden Id zurück
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
+    public ResponseEntity<SongRelatedData> getSongInfo(@PathVariable("id") String id) {
         HttpHeaders responseHeaders = new HttpHeaders();
         SongRelatedData data = songRelatedDataService.getSongRelatedData(id);
-        if (data == null){
+        if (data == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else {
-            return new ResponseEntity<>(data, responseHeaders,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(data, responseHeaders, HttpStatus.OK);
         }
 
     }

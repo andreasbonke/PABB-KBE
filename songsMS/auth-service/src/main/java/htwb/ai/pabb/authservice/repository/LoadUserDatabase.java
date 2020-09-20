@@ -16,8 +16,8 @@ public class LoadUserDatabase {
     CommandLineRunner initUserDatabase(UserRepository userRepository) {
 
         return args -> {
-            log.info("Preloading " + userRepository.save(new User(1,"mmuster", "pass1234", "Maxi", "Musterfrau")));
-            log.info("Preloading " + userRepository.save(new User(2,"eschuler", "pass1234", "Elena", "Schuler")));
+            log.info("Preloading " + userRepository.save(new User(1, "mmuster", "pass1234", "Maxi", "Musterfrau")));
+            log.info("Preloading " + userRepository.save(new User(2, "eschuler", "pass1234", "Elena", "Schuler")));
 
             log.info(userRepository.findAll().toString());
         };

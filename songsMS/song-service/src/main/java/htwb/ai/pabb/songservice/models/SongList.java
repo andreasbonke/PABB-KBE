@@ -8,17 +8,18 @@ import java.util.Objects;
 @Entity
 public class SongList implements Serializable {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
     private String ownerId;
     private String name;
     private Boolean isPrivate;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "songlist_songid", joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "songlist_id",referencedColumnName = "id"))
+    @JoinTable(name = "songlist_songid", joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "songlist_id", referencedColumnName = "id"))
     private List<Song> songs;
 
-    public SongList(){
+    public SongList() {
 
     }
 

@@ -14,36 +14,65 @@ public class SongService {
     @Autowired
     private SongRepository songRepository;
 
+    /**
+     * Gibt einen bestimmten Song mit entsprechender Id zurück
+     *
+     * @param id
+     * @return
+     */
     public Song getSong(int id) {
         return songRepository.findById(id).get();
     }
 
+    /**
+     * Gibt alle Songs aus der Datenbank zurück
+     *
+     * @return
+     */
     public List<Song> getAllSongs() {
         List<Song> songs = new ArrayList<>();
         songRepository.findAll().forEach(songs::add);
         return songs;
     }
 
-    public void addSong(Song song){
+    /**
+     * Fügt einen neune Song der Datenbank hinzu
+     *
+     * @param song
+     */
+    public void addSong(Song song) {
         songRepository.save(song);
     }
 
-    public boolean updateSong(int id, Song song){
+    /**
+     * Ändert einen gegebenen Song in der Datenbank
+     *
+     * @param id
+     * @param song
+     * @return
+     */
+    public boolean updateSong(int id, Song song) {
         try {
             songRepository.save(song);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
     }
 
-    public boolean deleteSong(int id){
+    /**
+     * Löscht einen bestimmten Song mit entsprechender Id aus der Datenbank
+     *
+     * @param id
+     * @return
+     */
+    public boolean deleteSong(int id) {
         try {
             songRepository.deleteById(id);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

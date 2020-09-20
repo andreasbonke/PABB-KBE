@@ -27,7 +27,7 @@ public class SongRelatedServiceApplication implements CommandLineRunner {
         repository.save(new SongRelatedData("1", "Songtext eines Songs"));
         repository.save(new SongRelatedData("2", "Songtext eines zweiten Songs"));
 
-        for (SongRelatedData songRelatedData : repository.findAll()){
+        for (SongRelatedData songRelatedData : repository.findAll()) {
             System.out.println(songRelatedData);
         }
     }

@@ -11,7 +11,19 @@ public class SongRelatedDataService {
     @Autowired
     private SongsRelatedServiceRepository relatedServiceRepository;
 
-    public SongRelatedData getSongRelatedData(String id){
-        return relatedServiceRepository.findById(id).get();
+    /**
+     * Gibt die Songtexte zurück mit der entsprechenden Song Id
+     *
+     * @param id
+     * @return
+     */
+    public SongRelatedData getSongRelatedData(String id) {
+        try {
+            return relatedServiceRepository.findById(id).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

@@ -10,7 +10,8 @@ import java.util.Objects;
 @Entity
 public class Song implements Serializable {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String title;
     private String artist;
